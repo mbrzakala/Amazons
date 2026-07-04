@@ -27,34 +27,78 @@ export class ProblemInputPage {
   readonly definition = signal('');
   readonly improvingParameter = signal('');
   readonly worseningParameter = signal('');
-  readonly errorMessage = signal('');
+  readonly definitionError = signal('');
+  readonly improvingError = signal('');
+  readonly worseningError = signal('');
+  readonly isSubmitting = signal(false);
+  readonly submitError = signal('');
 
-  readonly isValid = computed(() => this.definition().trim().length > 0);
+  readonly isValid = computed(
+    () =>
+      this.definition().trim().length > 0 &&
+      this.improvingParameter().trim().length > 0 &&
+      this.worseningParameter().trim().length > 0,
+  );
 
   onDefinitionChange(value: string): void {
     this.definition.set(value);
-    if (this.errorMessage()) this.errorMessage.set('');
+    if (this.definitionError()) this.definitionError.set('');
   }
 
   onImprovingParameterChange(value: string): void {
     this.improvingParameter.set(value);
+    if (this.improvingError()) this.improvingError.set('');
   }
 
   onWorseningParameterChange(value: string): void {
     this.worseningParameter.set(value);
+    if (this.worseningError()) this.worseningError.set('');
   }
 
   onSubmit(): void {
-    if (!this.isValid()) {
-      this.errorMessage.set('Describe the inventive problem before starting.');
-      return;
+    let hasError = false;
+
+    if (this.definition().trim().length === 0) {
+      this.definitionError.set('Describe the inventive problem before starting.');
+      hasError = true;
+    } else {
+      this.definitionError.set('');
     }
-    this.errorMessage.set('');
-    this.session.submitProblem({
-      definition: this.definition().trim(),
-      improvingParameter: this.improvingParameter().trim(),
-      worseningParameter: this.worseningParameter().trim(),
-    });
-    this.router.navigate(['/pipeline']);
+
+    if (this.improvingParameter().trim().length === 0) {
+      this.improvingError.set('Specify what should improve.');
+      hasError = true;
+    } else {
+      this.improvingError.set('');
+    }
+
+    if (this.worseningParameter().trim().length === 0) {
+      this.worseningError.set('Specify what degrades as a result.');
+      hasError = true;
+    } else {
+      this.worseningError.set('');
+    }
+
+    if (hasError) return;
+
+    this.isSubmitting.set(true);
+    this.submitError.set('');
+
+    this.session
+      .submitProblem({
+        definition: this.definition().trim(),
+        improvingParameter: this.improvingParameter().trim(),
+        worseningParameter: this.worseningParameter().trim(),
+      })
+      .subscribe({
+        next: () => {
+          this.isSubmitting.set(false);
+          this.router.navigate(['/pipeline']);
+        },
+        error: () => {
+          this.isSubmitting.set(false);
+          this.submitError.set('Failed to submit. Please try again.');
+        },
+      });
   }
 }

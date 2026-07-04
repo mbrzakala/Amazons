@@ -18,7 +18,7 @@
           placeholder="e.g. We need to increase freshwater output from desalination, but energy demand and equipment wear rise proportionally when we push the throughput."
           [rows]="8"
           [value]="definition()"
-          [errorMessage]="errorMessage()"
+          [errorMessage]="definitionError()"
           (valueChange)="onDefinitionChange($event)"
         />
 
@@ -28,18 +28,19 @@
             label="What should improve"
             placeholder="e.g. Freshwater output volume"
             [value]="improvingParameter()"
+            [errorMessage]="improvingError()"
             (valueChange)="onImprovingParameterChange($event)"
           />
           <app-labeled-input
             label="What degrades as a result"
             placeholder="e.g. Energy consumption and equipment wear"
             [value]="worseningParameter()"
+            [errorMessage]="worseningError()"
             (valueChange)="onWorseningParameterChange($event)"
           />
         </div>
 
-        <!-- Optional fields helper text -->
-        <p class="text-label-mono helper-text">Optional — if left blank, the system will extract these from your problem description.</p>
+        <p class="text-label-mono helper-text">Both parameters are required — they define the technical contradiction for TRIZ analysis.</p>
 
         <!-- Action Row -->
         <div class="action-row">
@@ -49,13 +50,17 @@
           </div>
           <app-button
             variant="primary"
-            [disabled]="!isValid()"
+            [disabled]="!isValid() || isSubmitting()"
             (buttonClick)="onSubmit()"
           >
-            <span class="text-label-caps">START REASONING</span>
+            <span class="text-label-caps">{{ isSubmitting() ? 'SUBMITTING...' : 'START REASONING' }}</span>
             <span trailing-icon class="material-symbols-outlined arrow" aria-hidden="true">arrow_forward</span>
           </app-button>
         </div>
+
+        @if (submitError()) {
+          <div class="submit-error text-label-mono" role="alert">{{ submitError() }}</div>
+        }
       </div>
     </app-rd-card>
 

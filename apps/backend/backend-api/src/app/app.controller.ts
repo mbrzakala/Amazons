@@ -10,10 +10,14 @@ export class AppController {
   // ==========================================
   @Post('solve')
   solveProblem(
-    @Body('problemDescription') problemDescription: string
+    @Body('problemDescription') problemDescription: string,
+    @Body('improvingParameter') improvingParameter: string,
+    @Body('worseningParameter') worseningParameter: string,
   ) {
     return this.appService.solveProblem({
       problemDescription,
+      improvingParameter,
+      worseningParameter,
     });
   }
 

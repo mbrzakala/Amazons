@@ -1,4 +1,6 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
 import { ProblemInput } from '../models/problem.model';
 import { MethodColumn, Solution } from '../models/solution.model';
 import { EvaluationRow, TrailNode, TrailEdge } from '../models/evaluation.model';
@@ -7,6 +9,7 @@ import { FakeApiService } from './fake-api.service';
 @Injectable()
 export class SolveSessionService {
   private readonly fakeApi = inject(FakeApiService);
+  private readonly http = inject(HttpClient);
 
   readonly problem = signal<ProblemInput | null>(null);
   readonly trizReformulation = signal<MethodColumn | null>(null);
@@ -32,9 +35,19 @@ export class SolveSessionService {
     return rec?.id ?? null;
   });
 
-  submitProblem(problem: ProblemInput): void {
-    this.problem.set(problem);
-    this.stage.set('pipeline');
+  submitProblem(problem: ProblemInput): Observable<unknown> {
+    return this.http
+      .post('/solve', {
+        problemDescription: problem.definition,
+        improvingParameter: problem.improvingParameter,
+        worseningParameter: problem.worseningParameter,
+      })
+      .pipe(
+        tap(() => {
+          this.problem.set(problem);
+          this.stage.set('pipeline');
+        }),
+      );
   }
 
   setTrizReformulation(column: MethodColumn): void {

@@ -17,6 +17,7 @@
     "@nx/js": "23.0.1",
     "@nx/playwright": "23.0.1",
     "@nx/web": "23.0.1",
+    "@nx/webpack": "23.0.1",
     "@playwright/test": "^1.37.0",
     "@schematics/angular": "~21.2.0",
     "@swc/helpers": "~0.5.18",

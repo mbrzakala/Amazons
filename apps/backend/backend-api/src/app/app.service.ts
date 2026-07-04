@@ -19,10 +19,28 @@ export class AppService {
   // ideation agent in parallel. Each produces its own persisted Solution
   // (advice + reasoning trail + raw events). One agent failing never blocks
   // persisting the other.
-  async solveProblem(dto: { problemDescription: string }) {
+  async solveProblem(dto: {
+    problemDescription: string;
+    improvingParameter: string;
+    worseningParameter: string;
+  }) {
     const problem = await this.prisma.problem.create({
-      data: { description: dto.problemDescription },
+      data: {
+        description: dto.problemDescription,
+        improvingParameter: dto.improvingParameter,
+        worseningParameter: dto.worseningParameter,
+      },
     });
+
+    // Build the TRIZ agent message with the explicit contradiction so the
+    // agent receives it as structured input rather than inferring it.
+    const trizMessage = [
+      `Problem: ${dto.problemDescription}`,
+      '',
+      'Technical contradiction:',
+      `- What should improve: ${dto.improvingParameter}`,
+      `- What degrades as a result: ${dto.worseningParameter}`,
+    ].join('\n');
 
     // Run both agents in parallel; sessionId = problem.id isolates each problem.
     const [trizResult, ideationResult] = await Promise.allSettled([
@@ -30,7 +48,7 @@ export class AppService {
         'triz_agent',
         this.guestUserId,
         problem.id,
-        dto.problemDescription
+        trizMessage
       ),
       this.adkAgent.runAgent(
         'ideation_agent',

@@ -69,6 +69,11 @@ app-button:hover:not(.disabled) .arrow {
   transform: translateX(var(--space-xs));
 }
 
+.submit-error {
+  color: var(--color-error);
+  padding: var(--space-sm) 0;
+}
+
 .skeletal-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
