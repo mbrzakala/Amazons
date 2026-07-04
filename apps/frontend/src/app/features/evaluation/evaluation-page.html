@@ -1,0 +1,51 @@
+<div class="page">
+  <div class="content-wrapper">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div>
+        <span class="text-label-caps stage-label">Workflow Stage</span>
+        <h1 class="text-headline-lg heading">Evaluation &amp; Reasoning Trail</h1>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn-secondary text-label-mono" (click)="onDownloadReport()">
+          <span class="material-symbols-outlined" aria-hidden="true">download</span>
+          {{ reportDownloaded() ? 'REPORT READY' : 'DOWNLOAD REPORT' }}
+        </button>
+        <button type="button" class="btn-primary text-label-mono" (click)="onViewFullTrail()">
+          <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+          {{ fullTrailView() ? 'COLLAPSE TRAIL' : 'VIEW FULL TRAIL' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Section 1: Evaluation Table -->
+    <section class="section">
+      <div class="section-header">
+        <span class="material-symbols-outlined" aria-hidden="true">analytics</span>
+        <h2 class="text-title-sm section-title">Evaluation Table</h2>
+      </div>
+      <app-evaluation-table [rows]="rows()" [recommendedRowId]="recommendedRowId()" />
+    </section>
+
+    <!-- Section 2: Reasoning Trail (NGD) -->
+    <section class="section trail-section" [class.expanded]="fullTrailView()">
+      <div class="section-header">
+        <div class="section-title-group">
+          <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
+          <h2 class="text-title-sm section-title">Reasoning Trail (NGD)</h2>
+        </div>
+      </div>
+      <app-reasoning-trail [nodes]="trailNodes()" [edges]="trailEdges()" />
+    </section>
+
+    <!-- Bottom Actions -->
+    <div class="bottom-actions">
+      <button type="button" class="btn-outline text-label-mono" (click)="onBackToSelection()">
+        Back to Selection
+      </button>
+      <button type="button" class="btn-primary text-label-mono" (click)="onInitiateValidation()">
+        Initiate Final Validation
+      </button>
+    </div>
+  </div>
+</div>
