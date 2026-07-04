@@ -34,3 +34,19 @@ docker run --rm -p 8080:80 frontend
 ```
 
 The app will be available at `http://localhost:8080`.
+
+## Kanban Board
+
+We use a lightweight, Markdown-based Kanban board (`kanban-lite`) to track our hackathon progress and stages.
+
+To view or manage the board from the command line:
+
+```bash
+npx kanban-lite list
+```
+
+To launch the interactive Kanban web UI (opens in browser at `http://localhost:3000`):
+
+```bash
+npx kanban-lite serve
+```
