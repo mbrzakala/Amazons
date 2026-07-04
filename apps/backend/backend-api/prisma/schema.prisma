@@ -18,8 +18,8 @@ datasource db {
 model Problem {
   id                 String     @id @default(uuid())
   description        String     // User's problem description (the "IF")
-  improvingParameter String     // What should improve (the "THEN")
-  worseningParameter String     // What degrades as a result (the "BUT")
+  improvingParameter String     @default("") // What should improve (the "THEN")
+  worseningParameter String     @default("") // What degrades as a result (the "BUT")
   createdAt          DateTime   @default(now())
   solutions          Solution[]
 }
