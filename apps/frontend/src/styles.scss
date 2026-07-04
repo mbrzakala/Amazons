@@ -36,6 +36,7 @@
   /* Accent — muted blue, reserved exclusively for
      "Recommended" pathway and "Running" status */
   --color-accent: #2563eb;
+  --color-accent-recommended: var(--color-accent); /* spec alias */
 
   /* Error */
   --color-error: #ba1a1a;
@@ -60,6 +61,14 @@
   --text-label-caps: 700 11px/14px var(--font-mono);
   --text-label-caps-tracking: 0.1em;
 
+  /* Spec-named typography aliases (chunk 01 spec uses --font-* names) */
+  --font-headline-lg: var(--text-headline-lg);
+  --font-headline-md: var(--text-headline-md);
+  --font-title-sm: var(--text-title-sm);
+  --font-body-md: var(--text-body-md);
+  --font-label-mono: var(--text-label-mono);
+  --font-label-caps: var(--text-label-caps);
+
   /* ── Spacing — 4px base unit ── */
   --space-xs: 4px;
   --space-sm: 8px;
@@ -68,6 +77,7 @@
   --space-xl: 48px;
   --space-gutter: 16px;
   --space-margin-page: 32px;
+  --space-page-margin: var(--space-margin-page); /* spec alias */
 
   /* ── Radii ── */
   --radius-sm: 0.125rem;
@@ -86,6 +96,12 @@
   --border-1-outline: 1px solid var(--color-outline);
   --border-2-primary: 2px solid var(--color-primary);
   --border-2-accent: 2px solid var(--color-accent);
+
+  /* Spec-named border tokens (chunk 01 spec) */
+  --border-width-default: 1px;
+  --border-width-focus: 2px;
+  --color-border-default: var(--color-outline-variant);
+  --color-border-focus: var(--color-primary);
 }
 
 /* ─────────────────────────────────────────────────────────────
