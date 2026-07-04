@@ -1,10 +1,13 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { ProblemInput } from '../models/problem.model';
 import { MethodColumn, Solution } from '../models/solution.model';
 import { EvaluationRow, TrailNode, TrailEdge } from '../models/evaluation.model';
+import { FakeApiService } from './fake-api.service';
 
 @Injectable()
 export class SolveSessionService {
+  private readonly fakeApi = inject(FakeApiService);
+
   readonly problem = signal<ProblemInput | null>(null);
   readonly trizReformulation = signal<MethodColumn | null>(null);
   readonly secondMethodReformulation = signal<MethodColumn | null>(null);
@@ -54,6 +57,13 @@ export class SolveSessionService {
   setTrail(nodes: TrailNode[], edges: TrailEdge[]): void {
     this.trailNodes.set(nodes);
     this.trailEdges.set(edges);
+  }
+
+  loadEvaluationData(): void {
+    if (this.evaluation().length > 0) return;
+    const rows = this.fakeApi.getEvaluation();
+    this.setEvaluation(rows);
+    this.setTrail(this.fakeApi.getTrailNodes(), this.fakeApi.getTrailEdges());
   }
 
   reset(): void {

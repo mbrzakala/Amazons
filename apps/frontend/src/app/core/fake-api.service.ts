@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, delay } from 'rxjs';
+import { Observable, of, delay, interval } from 'rxjs';
+import { scan, takeWhile } from 'rxjs/operators';
 import { MethodColumn } from '../models/solution.model';
 import { EvaluationRow, TrailNode, TrailEdge } from '../models/evaluation.model';
 import { ProblemInput } from '../models/problem.model';
@@ -27,6 +28,34 @@ export class FakeApiService {
       problem,
       methods: this.getReformulations(),
     }).pipe(delay(this.latency));
+  }
+
+  /**
+   * Emits an updated snapshot of `columns` every 3s, flipping the next
+   * 'running' solution (in column order) to 'done', then completes once
+   * every solution in every column is 'done'.
+   */
+  simulateProgress(columns: MethodColumn[]): Observable<MethodColumn[]> {
+    return interval(3000).pipe(
+      scan((cols) => {
+        let found = false;
+        return cols.map((col) => {
+          if (found) return col;
+          const runningIdx = col.solutions.findIndex((s) => s.status === 'running');
+          if (runningIdx === -1) return col;
+          found = true;
+          const newSolutions = col.solutions.map((s, i) =>
+            i === runningIdx ? { ...s, status: 'done' as const, progress: 100 } : s,
+          );
+          return {
+            ...col,
+            status: newSolutions.every((s) => s.status === 'done') ? ('done' as const) : ('running' as const),
+            solutions: newSolutions,
+          };
+        });
+      }, columns),
+      takeWhile((cols) => cols.some((col) => col.solutions.some((s) => s.status === 'running')), true),
+    );
   }
 
   getReformulations(): MethodColumn[] {
@@ -109,6 +138,17 @@ export class FakeApiService {
               'Implement a "Safe State" protocol that disables non-critical automation when latency hits thresholds. Alleviates Red/Black Hat risks.',
             provenance: 'Red & Black Hats',
             status: 'done',
+          },
+          {
+            id: 'hats-3',
+            title: 'Adaptive Confidence Scoring',
+            methodId: 'hats',
+            methodName: 'Hats',
+            description:
+              'Dynamically adjust automation confidence thresholds based on real-time Yellow Hat benefit analysis...',
+            provenance: 'Yellow & White Hats',
+            status: 'running',
+            progress: 45,
           },
         ],
       },
