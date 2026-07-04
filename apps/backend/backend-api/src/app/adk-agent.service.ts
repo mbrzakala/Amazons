@@ -22,6 +22,15 @@ export interface AgentRunResult {
   rawEvents: unknown;
 }
 
+// Structured score for a single candidate, returned by the evaluation agent.
+export interface CandidateScore {
+  candidateIndex: number;
+  feasibility: number;
+  novelty: number;
+  impact: number;
+  risk: number;
+}
+
 // Minimal structural typings for the parts of the ADK event shape we consume.
 interface AdkPart {
   text?: string;
@@ -193,5 +202,115 @@ export class AdkAgentService {
     return typeof candidate === 'number' && Number.isInteger(candidate)
       ? candidate
       : null;
+  }
+
+  // Runs the evaluation_agent to score all candidates in a single batch.
+  // The agent uses ADK's output_schema (Pydantic EvaluationResult) so the
+  // response is structured JSON, not prose. Never throws: on failure returns
+  // an empty array, and the caller treats null scores as "evaluation unavailable."
+  async evaluateCandidates(
+    problemDescription: string,
+    candidates: { title: string; description: string }[]
+  ): Promise<CandidateScore[]> {
+    if (candidates.length === 0) return [];
+
+    try {
+      const userId = 'guest-user';
+      const sessionId = `eval-${Date.now()}`;
+
+      // Ensure session exists (ignore errors if already exists).
+      const sessionInitUrl = `${this.adkAgentUrl}/apps/evaluation_agent/users/${userId}/sessions/${sessionId}`;
+      try {
+        await firstValueFrom(this.httpService.post(sessionInitUrl, {}));
+      } catch {
+        // Safe to ignore if the session already exists.
+      }
+
+      // Build the evaluation prompt with all candidates listed by index.
+      const candidateList = candidates
+        .map(
+          (c, i) =>
+            `Candidate ${i}:\n  Title: ${c.title}\n  Description: ${c.description}`
+        )
+        .join('\n\n');
+
+      const prompt = [
+        `Problem: ${problemDescription}`,
+        '',
+        `Candidates to evaluate (${candidates.length} total):`,
+        candidateList,
+      ].join('\n');
+
+      const requestPayload = {
+        appName: 'evaluation_agent',
+        userId,
+        sessionId,
+        newMessage: {
+          role: 'user',
+          parts: [{ text: prompt }],
+        },
+      };
+
+      const response = await firstValueFrom(
+        this.httpService.post(`${this.adkAgentUrl}/run`, requestPayload)
+      );
+
+      const events: AdkEvent[] = Array.isArray(response.data)
+        ? response.data
+        : [];
+
+      // The evaluation agent uses output_schema, so the final text part
+      // contains the structured JSON response matching EvaluationResult.
+      const text = this.extractAdvice(events, response.data);
+      return this.parseEvaluationResult(text, candidates.length);
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Failed to contact evaluation_agent: ${msg}`);
+      return [];
+    }
+  }
+
+  // Parses the structured JSON output from the evaluation agent.
+  // Expected shape: { "scores": [{ "candidate_index": 0, "feasibility": 0.8, ... }] }
+  private parseEvaluationResult(
+    text: string,
+    expectedCount: number
+  ): CandidateScore[] {
+    try {
+      // The output_schema response may be pure JSON or embedded in the text.
+      // Try direct parse first, then look for a JSON object in the text.
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) return [];
+        parsed = JSON.parse(jsonMatch[0]);
+      }
+
+      const result = parsed as { scores?: unknown };
+      if (!result.scores || !Array.isArray(result.scores)) return [];
+
+      return (result.scores as Record<string, unknown>[])
+        .filter((s) => typeof s.candidate_index === 'number')
+        .map((s) => ({
+          candidateIndex: s.candidate_index as number,
+          feasibility: this.clampScore(s.feasibility),
+          novelty: this.clampScore(s.novelty),
+          impact: this.clampScore(s.impact),
+          risk: this.clampScore(s.risk),
+        }))
+        .filter((s) => s.candidateIndex >= 0 && s.candidateIndex < expectedCount);
+    } catch {
+      this.logger.warn('Failed to parse evaluation agent output');
+      return [];
+    }
+  }
+
+  // Clamps a score value to the 0.0–1.0 range; returns 0 for invalid values.
+  private clampScore(value: unknown): number {
+    const n = typeof value === 'number' ? value : parseFloat(String(value));
+    if (isNaN(n)) return 0;
+    return Math.max(0, Math.min(1, n));
   }
 }

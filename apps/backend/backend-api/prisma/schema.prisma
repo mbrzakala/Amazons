@@ -48,5 +48,11 @@ model Solution {
   rating    Int?     // Per-proposition feedback rating (1-5 stars)
   createdAt DateTime @default(now())
 
+  // Parsed discrete candidates from the agent's advice text.
+  // Shape depends on method: TRIZ candidates have {id,title,principleId,principleName,description};
+  // ideation candidates have {id,title,mechanism,whyItWorks,tradeoffs}.
+  // Evaluation scores are merged into each candidate object by the evaluation step.
+  candidates Json?
+
   @@index([problemId])
 }
