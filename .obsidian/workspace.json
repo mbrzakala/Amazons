@@ -185,6 +185,7 @@
   },
   "active": "475ee9a6788f6ed0",
   "lastOpenFiles": [
+    "apps/frontend/src/app/core/map-solutions.util.ts",
     "doc/01-discovery-loom-final-flow.md",
     "apps/backend/adk-agents/reframing_agent/agent.py",
     "apps/backend/adk-agents/reframing_agent/__init__.py",
@@ -229,7 +230,6 @@
     "doc/01-discovery-problem-statement-canvas.md",
     "agent_doc/5-deployment/VALIDATION-REPORT.md",
     "agent_doc/4-backend/VALIDATION-REPORT.md",
-    "apps/frontend/design-system/devin-task-breakdown.md",
-    "apps/frontend/design-system/frontend-remediation-plan.md"
+    "apps/frontend/design-system/devin-task-breakdown.md"
   ]
 }
