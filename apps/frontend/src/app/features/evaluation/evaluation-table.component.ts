@@ -121,13 +121,13 @@ import { EvaluationRow } from '../../models/evaluation.model';
     }
     .recommended-tab {
       position: absolute;
-      left: -12px;
+      left: calc(-1 * var(--space-md));
       top: 50%;
       transform: translateY(-50%) rotate(-90deg);
       background: var(--color-primary);
       color: var(--color-on-primary);
       padding: 2px var(--space-xs);
-      font-size: 9px;
+      font: var(--text-label-caps);
     }
   `],
 })

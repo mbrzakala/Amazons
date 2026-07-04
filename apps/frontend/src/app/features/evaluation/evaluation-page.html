@@ -7,14 +7,14 @@
         <h1 class="text-headline-lg heading">Evaluation &amp; Reasoning Trail</h1>
       </div>
       <div class="header-actions">
-        <button type="button" class="btn-secondary text-label-mono" (click)="onDownloadReport()">
-          <span class="material-symbols-outlined" aria-hidden="true">download</span>
-          {{ reportDownloaded() ? 'REPORT READY' : 'DOWNLOAD REPORT' }}
-        </button>
-        <button type="button" class="btn-primary text-label-mono" (click)="onViewFullTrail()">
-          <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
-          {{ fullTrailView() ? 'COLLAPSE TRAIL' : 'VIEW FULL TRAIL' }}
-        </button>
+        <app-button variant="secondary" (buttonClick)="onDownloadReport()">
+          <span leading-icon class="material-symbols-outlined" aria-hidden="true">download</span>
+          <span class="text-label-mono">{{ reportDownloaded() ? 'REPORT READY' : 'DOWNLOAD REPORT' }}</span>
+        </app-button>
+        <app-button variant="primary" (buttonClick)="onViewFullTrail()">
+          <span leading-icon class="material-symbols-outlined" aria-hidden="true">visibility</span>
+          <span class="text-label-mono">{{ fullTrailView() ? 'COLLAPSE TRAIL' : 'VIEW FULL TRAIL' }}</span>
+        </app-button>
       </div>
     </div>
 
@@ -40,12 +40,12 @@
 
     <!-- Bottom Actions -->
     <div class="bottom-actions">
-      <button type="button" class="btn-outline text-label-mono" (click)="onBackToSelection()">
-        Back to Selection
-      </button>
-      <button type="button" class="btn-primary text-label-mono" (click)="onInitiateValidation()">
-        Initiate Final Validation
-      </button>
+      <app-button variant="secondary" (buttonClick)="onBackToSelection()">
+        <span class="text-label-mono">Back to Selection</span>
+      </app-button>
+      <app-button variant="primary" (buttonClick)="onInitiateValidation()">
+        <span class="text-label-mono">Initiate Final Validation</span>
+      </app-button>
     </div>
   </div>
 </div>

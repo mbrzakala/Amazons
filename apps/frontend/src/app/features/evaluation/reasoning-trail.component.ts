@@ -41,7 +41,7 @@ import { TrailNodeTemplateComponent } from './trail-node-template.component';
         </div>
       </div>
 
-      <div class="graph-area">
+      <div class="graph-area dot-grid-bg">
         <ng-diagram
           [model]="model()"
           [nodeTemplateMap]="nodeTemplateMap"
@@ -67,11 +67,11 @@ import { TrailNodeTemplateComponent } from './trail-node-template.component';
       display: flex;
       align-items: center;
       gap: var(--space-xs);
-      font-size: 10px;
+      font: var(--text-label-caps);
     }
     .swatch {
-      width: 12px;
-      height: 12px;
+      width: var(--space-sm);
+      height: var(--space-sm);
     }
     .swatch.solid {
       background: var(--color-primary);
@@ -80,7 +80,7 @@ import { TrailNodeTemplateComponent } from './trail-node-template.component';
       border: var(--border-1);
     }
     .swatch.line {
-      width: 12px;
+      width: var(--space-sm);
       height: 1px;
       background: var(--color-outline-variant);
     }
@@ -88,7 +88,28 @@ import { TrailNodeTemplateComponent } from './trail-node-template.component';
     .graph-area {
       position: relative;
       width: 100%;
-      height: 500px;
+      height: calc(var(--space-xl) * 10);
+    }
+    .graph-area.dot-grid-bg {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .graph-area.dot-grid-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(
+        var(--color-primary) 1px,
+        transparent 1px
+      );
+      background-size: 20px 20px;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .graph-area ::ng-deep ng-diagram {
+      position: relative;
+      z-index: 1;
     }
   `],
 })

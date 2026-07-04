@@ -2,16 +2,18 @@ import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@ang
 import { Router } from '@angular/router';
 import { EvaluationTableComponent } from './evaluation-table.component';
 import { ReasoningTrailComponent } from './reasoning-trail.component';
+import { ButtonComponent } from '../../shared/ui/button.component';
 import { SolveSessionService } from '../../core/solve-session.service';
 import { FakeApiService } from '../../core/fake-api.service';
 import { EvaluationRow, TrailNode, TrailEdge } from '../../models/evaluation.model';
+import { downloadJson } from '../../core/download.util';
 
 @Component({
   selector: 'app-evaluation-page',
   templateUrl: './evaluation-page.html',
   styleUrl: './evaluation-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [EvaluationTableComponent, ReasoningTrailComponent],
+  imports: [EvaluationTableComponent, ReasoningTrailComponent, ButtonComponent],
 })
 export class EvaluationPage implements OnInit {
   private readonly session = inject(SolveSessionService);
@@ -42,6 +44,18 @@ export class EvaluationPage implements OnInit {
   }
 
   onDownloadReport(): void {
+    const report = {
+      problem: this.session.problem(),
+      trizReformulation: this.session.trizReformulation(),
+      secondMethodReformulation: this.session.secondMethodReformulation(),
+      trizSolutions: this.session.trizSolutions(),
+      secondMethodSolutions: this.session.secondMethodSolutions(),
+      evaluation: this.session.evaluation(),
+      recommendation: this.session.recommendation(),
+      trailNodes: this.session.trailNodes(),
+      trailEdges: this.session.trailEdges(),
+    };
+    downloadJson('evaluation-report.json', report);
     this.reportDownloaded.set(true);
   }
 

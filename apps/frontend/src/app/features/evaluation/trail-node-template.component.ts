@@ -60,7 +60,7 @@ interface TrailNodeData {
     }
     .node-label {
       display: block;
-      font-size: 9px;
+      font: var(--text-label-caps);
       color: var(--color-on-surface-variant);
       margin-bottom: var(--space-xs);
     }
@@ -68,19 +68,19 @@ interface TrailNodeData {
       opacity: 0.7;
     }
     .node-title {
-      font-size: 12px;
+      font: var(--text-label-mono);
       text-transform: uppercase;
     }
     .node-title.bold {
       font-weight: 700;
     }
     .trail-node.final .node-title {
-      font-size: 18px;
+      font: var(--text-title-sm);
       font-weight: 700;
       line-height: 1;
     }
     .sk-line {
-      height: 12px;
+      height: var(--space-sm);
       width: 100%;
       margin-bottom: var(--space-xs);
     }
