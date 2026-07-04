@@ -41,7 +41,12 @@ The app will be available at `http://localhost:8080`.
 `embeddings` (Ollama serving `embeddinggemma:300m`), `mcp-server` (TRIZ MCP server),
 `adk-agents` (Google ADK agent), `backend-api` (NestJS), and `frontend` (nginx).
 
-1. Copy the env template and fill in a real Gemini API key:
+### Before you run it
+
+1. **Docker Desktop (or the Docker Engine + Compose plugin) must be installed and running.**
+   Check with `docker compose version`.
+
+2. **Copy the env template and fill in a real Gemini API key:**
 
    ```
    cp .env.example .env
@@ -51,32 +56,53 @@ The app will be available at `http://localhost:8080`.
    at https://ai.google.dev/gemini-api/docs/api-key. Without it, every other service
    still comes up fine, but `/api/solve` requests will fail at the Gemini call.
 
-2. Build and start everything:
+3. **Check that the ports below are free on your machine.** They're the defaults the
+   compose file publishes; if another project (or an earlier `docker compose up`
+   elsewhere) is already using one, the container for that service will sit stuck in
+   `Created` state and never actually expose the port:
 
    ```
-   docker compose up --build
+   lsof -nP -iTCP:3000 -iTCP:8000 -iTCP:8081 -iTCP:8080 -iTCP:11434 -sTCP:LISTEN
    ```
 
-3. Once healthy:
-   - Frontend: `http://localhost:8080`
-   - Backend API: `http://localhost:3000/api`
-   - MCP server: `http://localhost:8000/mcp`
-   - ADK agent API: `http://localhost:8081`
-   - Ollama embeddings: `http://localhost:11434`
+   If any of those are taken, don't change `docker-compose.yml` — instead add a
+   `docker-compose.override.yml` at the repo root (already git-ignored, so it's
+   local-only) remapping just the affected service(s), e.g.:
 
-   `backend-api` runs `prisma db push` automatically on startup, so the schema is
-   created in the `postgres` container with no manual migration step.
+   ```yaml
+   services:
+     backend-api:
+       ports:
+         - '3001:3000'
+     adk-agents:
+       ports:
+         - '8082:8081'
+     mcp-server:
+       ports:
+         - '8001:8000'
+     embeddings:
+       ports:
+         - '11435:8080'
+   ```
 
-If any of those host ports are already in use by something else on your machine,
-override them locally with a `docker-compose.override.yml` (already ignored by git),
-e.g.:
+   Compose auto-loads this file, so the URLs below shift to whatever host ports you
+   chose.
 
-```yaml
-services:
-  backend-api:
-    ports:
-      - '3001:3000'
+### Run it
+
 ```
+docker compose up --build
+```
+
+Once healthy:
+- Frontend: `http://localhost:8080`
+- Backend API: `http://localhost:3000/api`
+- MCP server: `http://localhost:8000/mcp`
+- ADK agent API: `http://localhost:8081`
+- Ollama embeddings: `http://localhost:11434`
+
+`backend-api` runs `prisma db push` automatically on startup, so the schema is
+created in the `postgres` container with no manual migration step.
 
 ## Kanban Board
 
