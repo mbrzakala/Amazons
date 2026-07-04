@@ -12,7 +12,7 @@ COPY . .
 RUN npx prisma generate --schema=apps/backend/backend-api/prisma/schema.prisma
 
 # Build the NestJS backend
-RUN npx nx build backend
+RUN npx nx build backend-api
 
 # --- Production Stage ---
 FROM node:20-alpine
