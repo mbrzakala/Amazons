@@ -1,11 +1,9 @@
-import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MethodColumnComponent } from './method-column.component';
 import { StageDividerComponent } from '../../shared/ui/stage-divider.component';
 import { ButtonComponent } from '../../shared/ui/button.component';
 import { SolveSessionService } from '../../core/solve-session.service';
-import { FakeApiService } from '../../core/fake-api.service';
 import { MethodColumn } from '../../models/solution.model';
 import { downloadJson } from '../../core/download.util';
 
@@ -18,9 +16,7 @@ import { downloadJson } from '../../core/download.util';
 })
 export class PipelinePage implements OnInit {
   private readonly session = inject(SolveSessionService);
-  private readonly fakeApi = inject(FakeApiService);
   private readonly router = inject(Router);
-  private readonly destroyRef = inject(DestroyRef);
 
   readonly methodColumns = signal<MethodColumn[]>([]);
   readonly isProcessing = computed(() => !this.allSolutionsReady());
@@ -34,19 +30,13 @@ export class PipelinePage implements OnInit {
   });
 
   ngOnInit(): void {
-    const columns = this.fakeApi.getReformulations();
+    // Build method columns from real session data (already set by submitProblem()).
+    const triz = this.session.trizReformulation();
+    const ideation = this.session.secondMethodReformulation();
+    const columns: MethodColumn[] = [];
+    if (triz) columns.push(triz);
+    if (ideation) columns.push(ideation);
     this.methodColumns.set(columns);
-    this.session.setTrizReformulation(columns[0]);
-    this.session.setSecondMethodReformulation(columns[1]);
-
-    this.fakeApi
-      .simulateProgress(columns)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((updated) => {
-        this.methodColumns.set(updated);
-        this.session.setTrizReformulation(updated[0]);
-        this.session.setSecondMethodReformulation(updated[1]);
-      });
   }
 
   onExportWorkflow(): void {
@@ -61,9 +51,8 @@ export class PipelinePage implements OnInit {
   }
 
   onSynthesize(): void {
-    const rows = this.fakeApi.getEvaluation();
-    this.session.setEvaluation(rows);
-    this.session.setTrail(this.fakeApi.getTrailNodes(), this.fakeApi.getTrailEdges());
+    // Evaluation data is already set in session by submitProblem() from the
+    // real POST /solve response. Navigate to the evaluation page.
     this.router.navigate(['/evaluation']);
   }
 }

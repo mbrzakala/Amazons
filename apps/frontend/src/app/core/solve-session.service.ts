@@ -4,11 +4,11 @@ import { Observable, tap } from 'rxjs';
 import { ProblemInput } from '../models/problem.model';
 import { MethodColumn, Solution } from '../models/solution.model';
 import { EvaluationRow, TrailNode, TrailEdge } from '../models/evaluation.model';
-import { FakeApiService } from './fake-api.service';
+import { SolveResponse } from '../models/api-response.model';
+import { mapSolveResponseToSessionState } from './response-mapper.util';
 
 @Injectable()
 export class SolveSessionService {
-  private readonly fakeApi = inject(FakeApiService);
   private readonly http = inject(HttpClient);
 
   readonly problem = signal<ProblemInput | null>(null);
@@ -35,17 +35,39 @@ export class SolveSessionService {
     return rec?.id ?? null;
   });
 
-  submitProblem(problem: ProblemInput): Observable<unknown> {
+  submitProblem(problem: ProblemInput): Observable<SolveResponse> {
     return this.http
-      .post('/solve', {
+      .post<SolveResponse>('/solve', {
         problemDescription: problem.definition,
         improvingParameter: problem.improvingParameter,
         worseningParameter: problem.worseningParameter,
       })
       .pipe(
-        tap(() => {
+        tap((response) => {
           this.problem.set(problem);
           this.stage.set('pipeline');
+
+          // Map the real backend response into session signals.
+          const state = mapSolveResponseToSessionState(response);
+
+          // Set method columns and solutions.
+          if (state.methodColumns.length >= 1) {
+            this.trizReformulation.set(state.methodColumns[0]);
+            this.trizSolutions.set(state.methodColumns[0].solutions);
+          }
+          if (state.methodColumns.length >= 2) {
+            this.secondMethodReformulation.set(state.methodColumns[1]);
+            this.secondMethodSolutions.set(state.methodColumns[1].solutions);
+          }
+
+          // Set evaluation and trail if evaluation succeeded.
+          if (state.evaluationRows.length > 0) {
+            this.evaluation.set(state.evaluationRows);
+            const rec = state.evaluationRows.find((r) => r.recommended) ?? null;
+            this.recommendation.set(rec);
+          }
+          this.trailNodes.set(state.trailNodes);
+          this.trailEdges.set(state.trailEdges);
         }),
       );
   }
@@ -73,10 +95,10 @@ export class SolveSessionService {
   }
 
   loadEvaluationData(): void {
+    // Evaluation data is now set by submitProblem() from the real API response.
+    // This method is kept for backward compatibility (e.g. direct navigation to
+    // /evaluation) but no longer falls back to fake data.
     if (this.evaluation().length > 0) return;
-    const rows = this.fakeApi.getEvaluation();
-    this.setEvaluation(rows);
-    this.setTrail(this.fakeApi.getTrailNodes(), this.fakeApi.getTrailEdges());
   }
 
   reset(): void {
