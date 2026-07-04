@@ -40,15 +40,15 @@ import { HatAnalysis } from '../../models/problem.model';
       margin-bottom: var(--space-xs);
     }
     .hat-swatch {
-      width: 12px;
-      height: 12px;
+      width: var(--space-sm);
+      height: var(--space-sm);
       border: 1px solid var(--color-primary);
     }
     .hat-name {
       color: var(--color-on-surface-variant);
     }
     .hat-note {
-      font-size: 12px;
+      font: var(--text-label-mono);
       line-height: 1.3;
     }
     .hat-card.active .hat-note {

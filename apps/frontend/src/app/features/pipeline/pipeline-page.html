@@ -28,15 +28,14 @@
     <div class="footer-content">
       <p class="text-label-mono footer-hint">Evaluation Phase will begin automatically once all generators are 'DONE'.</p>
       <div class="footer-actions">
-        <button type="button" class="btn-secondary text-label-caps">EXPORT WORKFLOW</button>
-        <button
-          type="button"
-          class="btn-primary text-label-caps"
+        <app-button variant="secondary" (buttonClick)="onExportWorkflow()"><span class="text-label-caps">EXPORT WORKFLOW</span></app-button>
+        <app-button
+          variant="primary"
           [disabled]="!allSolutionsReady()"
-          (click)="onSynthesize()"
+          (buttonClick)="onSynthesize()"
         >
-          SYNTHESIZE RESULTS
-        </button>
+          <span class="text-label-caps">SYNTHESIZE RESULTS</span>
+        </app-button>
       </div>
     </div>
   </footer>

@@ -41,7 +41,7 @@ import { StatusChipComponent } from '../../shared/ui/status-chip.component';
       border-color: var(--color-primary);
     }
     .card:hover .arrow {
-      transform: translateX(4px);
+      transform: translateX(var(--space-xs));
     }
     .card.running {
       border: 1px dashed var(--color-primary);
@@ -74,8 +74,7 @@ import { StatusChipComponent } from '../../shared/ui/status-chip.component';
       align-items: center;
     }
     .provenance {
-      font-size: 10px;
-      text-transform: uppercase;
+      font: var(--text-label-caps);
       color: var(--color-on-surface-variant);
     }
     .arrow {
@@ -83,7 +82,7 @@ import { StatusChipComponent } from '../../shared/ui/status-chip.component';
       transition: transform 0.2s;
     }
     .progress-track {
-      height: 4px;
+      height: var(--space-xs);
       background: var(--color-outline-variant);
       overflow: hidden;
     }
@@ -93,7 +92,7 @@ import { StatusChipComponent } from '../../shared/ui/status-chip.component';
       animation: progress-slide 2s ease-in-out infinite;
     }
     .placeholder {
-      height: 128px;
+      height: calc(var(--space-xl) * 2 + var(--space-md));
       border: 2px dashed var(--color-outline-variant);
       display: flex;
       align-items: center;
@@ -106,9 +105,7 @@ import { StatusChipComponent } from '../../shared/ui/status-chip.component';
       background: var(--color-surface-container-lowest);
       padding: var(--space-sm) var(--space-md);
       border: var(--border-1);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+      font: var(--text-label-caps);
     }
   `],
 })

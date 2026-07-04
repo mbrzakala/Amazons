@@ -1,14 +1,15 @@
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
 import { MethodColumn } from '../../models/solution.model';
 import { StatusChipComponent } from '../../shared/ui/status-chip.component';
 import { StageDividerComponent } from '../../shared/ui/stage-divider.component';
-import { SolutionCardComponent } from './solution-card.component';
+import { SolutionStackComponent } from './solution-stack.component';
 import { SixHatsGridComponent } from './six-hats-grid.component';
+import { TrizReformulationCardComponent } from './triz-reformulation-card.component';
 
 @Component({
   selector: 'app-method-column',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [StatusChipComponent, StageDividerComponent, SolutionCardComponent, SixHatsGridComponent],
+  imports: [StatusChipComponent, StageDividerComponent, SolutionStackComponent, SixHatsGridComponent, TrizReformulationCardComponent],
   template: `
     <div class="column">
       <!-- Method Header -->
@@ -19,20 +20,12 @@ import { SixHatsGridComponent } from './six-hats-grid.component';
 
       <!-- TRIZ-style Reformulation Card -->
       @if (column().reformulation.improvingParameter) {
-        <div class="reform-card">
-          <div class="field">
-            <span class="text-label-caps field-label">IMPROVING PARAMETER</span>
-            <div class="field-value text-label-mono">{{ column().reformulation.improvingParameter }}</div>
-          </div>
-          <div class="field">
-            <span class="text-label-caps field-label">WORSENING PARAMETER</span>
-            <div class="field-value text-label-mono">{{ column().reformulation.worseningParameter }}</div>
-          </div>
-          <div class="field contradiction">
-            <span class="text-label-caps field-label">CONTRADICTION STATEMENT</span>
-            <p class="text-body-md contradiction-text">{{ column().reformulation.contradictionStatement }}</p>
-          </div>
-        </div>
+        <app-triz-reformulation-card
+          [improvingParameter]="column().reformulation.improvingParameter!"
+          [worseningParameter]="column().reformulation.worseningParameter!"
+          [contradictionStatement]="column().reformulation.contradictionStatement!"
+          [status]="column().status"
+        />
       }
 
       <!-- Hats-style Reformulation Card -->
@@ -44,17 +37,10 @@ import { SixHatsGridComponent } from './six-hats-grid.component';
       <app-stage-divider [label]="solutionsLabel()" [dashed]="true" />
 
       <!-- Solution Cards Stack -->
-      <div class="solutions-stack">
-        @for (sol of column().solutions; track sol.id; let i = $index) {
-          <app-solution-card [solution]="sol" [index]="i" />
-        }
-        @if (column().status === 'running') {
-          <app-solution-card
-            [solution]="{ id: 'pending', title: '', methodId: column().methodId, methodName: column().methodName, description: '', provenance: '', status: 'pending' }"
-            [index]="column().solutions.length"
-          />
-        }
-      </div>
+      <app-solution-stack [solutions]="column().solutions" />
+      @if (column().status === 'running') {
+        <app-solution-stack [solutions]="pendingSolutions()" />
+      }
     </div>
   `,
   styles: [`
@@ -69,40 +55,6 @@ import { SixHatsGridComponent } from './six-hats-grid.component';
       align-items: center;
       margin-bottom: var(--space-sm);
     }
-    .reform-card {
-      padding: var(--space-lg);
-      background: var(--color-surface-container-lowest);
-      border: var(--border-1);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-    }
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
-    }
-    .field-label {
-      color: var(--color-on-surface-variant);
-    }
-    .field-value {
-      padding: var(--space-sm);
-      background: var(--color-surface);
-      border: var(--border-1);
-    }
-    .contradiction {
-      padding-top: var(--space-md);
-      border-top: var(--border-1);
-    }
-    .contradiction-text {
-      font-style: italic;
-      line-height: 1.6;
-    }
-    .solutions-stack {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-    }
   `],
 })
 export class MethodColumnComponent {
@@ -112,4 +64,10 @@ export class MethodColumnComponent {
     const name = this.column().methodName.split(' ')[0];
     return `Proposed Solutions (${name})`;
   }
+
+  readonly pendingSolutions = computed(() =>
+    this.column().status === 'running'
+      ? [{ id: 'pending', title: '', methodId: this.column().methodId, methodName: this.column().methodName, description: '', provenance: '', status: 'pending' as const }]
+      : [],
+  );
 }
