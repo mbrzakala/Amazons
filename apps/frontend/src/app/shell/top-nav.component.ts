@@ -1,10 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { IconButtonComponent } from '../shared/ui/icon-button.component';
 
 @Component({
   selector: 'app-top-nav',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, IconButtonComponent],
   template: `
     <nav class="topnav" aria-label="Top navigation">
       <div class="topnav-left">
@@ -31,12 +32,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         </div>
       </div>
       <div class="topnav-right">
-        <button type="button" class="icon-btn" aria-label="Settings">
-          <span class="material-symbols-outlined" aria-hidden="true">settings</span>
-        </button>
-        <button type="button" class="icon-btn" aria-label="Help">
-          <span class="material-symbols-outlined" aria-hidden="true">help</span>
-        </button>
+        <app-icon-button icon="settings" ariaLabel="Settings" />
+        <app-icon-button icon="help" ariaLabel="Help" />
       </div>
     </nav>
   `,
@@ -102,19 +99,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       display: flex;
       align-items: center;
       gap: var(--space-sm);
-    }
-
-    .icon-btn {
-      padding: var(--space-sm);
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      border-radius: var(--radius-full);
-      color: var(--color-on-surface-variant);
-      transition: background 0.2s;
-    }
-    .icon-btn:hover {
-      background: var(--color-surface-container-high);
     }
 
     :focus-visible {

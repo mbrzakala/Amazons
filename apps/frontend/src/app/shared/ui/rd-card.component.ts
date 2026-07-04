@@ -4,15 +4,8 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
   selector: 'app-rd-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="card" [class.active]="active()">
-      @if (title()) {
-        <div class="header">
-          <h4 class="title text-title-sm">{{ title() }}</h4>
-          @if (subtitle()) {
-            <span class="subtitle text-label-mono">{{ subtitle() }}</span>
-          }
-        </div>
-      }
+    <div class="card" [class.active]="active()" [class.interactive]="interactive()">
+      <ng-content select="[card-header]" />
       <div class="body">
         <ng-content />
       </div>
@@ -27,7 +20,14 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
     .card.active {
       border: var(--border-2-primary);
     }
-    .header {
+    .card.interactive {
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+    .card.interactive:hover {
+      border-color: var(--color-primary);
+    }
+    ::ng-deep [card-header] {
       padding: var(--space-md) var(--space-lg);
       border-bottom: var(--border-1);
       display: flex;
@@ -35,21 +35,12 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
       align-items: center;
       gap: var(--space-md);
     }
-    .title {
-      font-weight: 700;
-    }
-    .subtitle {
-      color: var(--color-on-surface-variant);
-      font-size: 10px;
-      text-transform: uppercase;
-    }
     .body {
       padding: var(--space-lg);
     }
   `],
 })
 export class RdCardComponent {
-  readonly title = input<string>('');
-  readonly subtitle = input<string>('');
   readonly active = input<boolean>(false);
+  readonly interactive = input<boolean>(false);
 }

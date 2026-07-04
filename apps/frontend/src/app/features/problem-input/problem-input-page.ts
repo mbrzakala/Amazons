@@ -1,6 +1,10 @@
 import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { PhaseBreadcrumbComponent, Phase } from '../../shared/ui/phase-breadcrumb.component';
+import { ButtonComponent } from '../../shared/ui/button.component';
+import { LabeledTextareaComponent } from '../../shared/ui/labeled-textarea.component';
+import { LabeledInputComponent } from '../../shared/ui/labeled-input.component';
+import { RdCardComponent } from '../../shared/ui/rd-card.component';
 import { SolveSessionService } from '../../core/solve-session.service';
 
 @Component({
@@ -8,7 +12,7 @@ import { SolveSessionService } from '../../core/solve-session.service';
   templateUrl: './problem-input-page.html',
   styleUrl: './problem-input-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PhaseBreadcrumbComponent],
+  imports: [PhaseBreadcrumbComponent, ButtonComponent, LabeledTextareaComponent, LabeledInputComponent, RdCardComponent],
 })
 export class ProblemInputPage {
   private readonly session = inject(SolveSessionService);
@@ -27,17 +31,17 @@ export class ProblemInputPage {
 
   readonly isValid = computed(() => this.definition().trim().length > 0);
 
-  onDefinitionInput(event: Event): void {
-    this.definition.set((event.target as HTMLTextAreaElement).value);
+  onDefinitionChange(value: string): void {
+    this.definition.set(value);
     if (this.errorMessage()) this.errorMessage.set('');
   }
 
-  onSystemRequirementInput(event: Event): void {
-    this.systemRequirement.set((event.target as HTMLInputElement).value);
+  onSystemRequirementChange(value: string): void {
+    this.systemRequirement.set(value);
   }
 
-  onPhysicalLimitInput(event: Event): void {
-    this.physicalLimit.set((event.target as HTMLInputElement).value);
+  onPhysicalLimitChange(value: string): void {
+    this.physicalLimit.set(value);
   }
 
   onSubmit(): void {

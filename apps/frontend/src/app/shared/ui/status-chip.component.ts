@@ -27,7 +27,6 @@ import { SolutionStatus } from '../../models/solution.model';
       letter-spacing: var(--text-label-caps-tracking);
       text-transform: uppercase;
       white-space: nowrap;
-      font-size: 10px;
     }
     .chip.done {
       border: 1px solid var(--color-primary);
@@ -41,13 +40,13 @@ import { SolutionStatus } from '../../models/solution.model';
       color: var(--color-on-surface-variant);
     }
     .dot {
-      width: 6px;
-      height: 6px;
+      width: calc(var(--space-sm) * 0.75);
+      height: calc(var(--space-sm) * 0.75);
       border-radius: var(--radius-full);
       background: var(--color-primary);
     }
     .icon {
-      font-size: 12px;
+      font-size: var(--space-sm);
     }
   `],
 })
