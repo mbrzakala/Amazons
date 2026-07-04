@@ -1,0 +1,43 @@
+<div class="page">
+  <!-- Page Header -->
+  <header class="page-header">
+    <div>
+      <span class="text-label-caps stage-label">Workflow Stage</span>
+      <h1 class="text-headline-lg heading">Comparison Pipeline: Reformulation &amp; Generation</h1>
+    </div>
+    @if (isProcessing()) {
+      <div class="processing-pill">
+        <div class="dot animate-pulse-dot"></div>
+        <span class="text-label-mono">Processing</span>
+      </div>
+    }
+  </header>
+
+  <!-- Stage Divider: Reformulation -->
+  <app-stage-divider label="Stage 01: Problem Reformulation" />
+
+  <!-- Columns Container -->
+  <div class="columns-grid">
+    @for (col of methodColumns(); track col.methodId) {
+      <app-method-column [column]="col" />
+    }
+  </div>
+
+  <!-- Footer / Global Evaluation Trigger -->
+  <footer class="pipeline-footer">
+    <div class="footer-content">
+      <p class="text-label-mono footer-hint">Evaluation Phase will begin automatically once all generators are 'DONE'.</p>
+      <div class="footer-actions">
+        <button type="button" class="btn-secondary text-label-caps">EXPORT WORKFLOW</button>
+        <button
+          type="button"
+          class="btn-primary text-label-caps"
+          [disabled]="!allSolutionsReady()"
+          (click)="onSynthesize()"
+        >
+          SYNTHESIZE RESULTS
+        </button>
+      </div>
+    </div>
+  </footer>
+</div>

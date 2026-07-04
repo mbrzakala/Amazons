@@ -48,6 +48,7 @@
     "@nestjs/platform-express": "^11.1.27",
     "@prisma/client": "^6.19.3",
     "axios": "^1.18.1",
+    "ng-diagram": "^1.2.4",
     "prisma": "^6.19.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "~7.8.0"

@@ -1,0 +1,131 @@
+.page {
+  padding: var(--space-lg);
+}
+
+.content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: var(--space-md);
+}
+
+.stage-label {
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.heading {
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.header-actions .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.section {
+  border: var(--border-1);
+  background: var(--color-surface-container-lowest);
+  padding: var(--space-lg);
+}
+
+.trail-section {
+  position: relative;
+  min-height: 600px;
+  overflow: hidden;
+}
+.trail-section.expanded {
+  min-height: 800px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.section-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.section-title {
+  text-transform: uppercase;
+}
+
+.bottom-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-surface-container);
+  border: var(--border-1);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-primary);
+  background: transparent;
+  color: var(--color-on-surface);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-secondary:hover {
+  background: var(--color-surface-container);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-outline {
+  padding: var(--space-md) var(--space-xl);
+  background: var(--color-surface-container-lowest);
+  border: var(--border-1);
+  color: var(--color-on-surface);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+.btn-outline:hover {
+  background: var(--color-surface-container-highest);
+}
+
+.btn-secondary:focus-visible,
+.btn-primary:focus-visible,
+.btn-outline:focus-visible {
+  outline: var(--border-2-primary);
+  outline-offset: 2px;
+}

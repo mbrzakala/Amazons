@@ -1,0 +1,95 @@
+<div class="page">
+  <div class="content-wrapper">
+    <!-- Breadcrumbs / Phase Indicator -->
+    <app-phase-breadcrumb [phases]="phases" />
+
+    <!-- Heading Section -->
+    <div class="heading-section">
+      <h1 class="text-headline-lg heading">Identify a Contradiction</h1>
+      <p class="text-body-md subcopy">Describe the inventive problem you are facing in technical detail.</p>
+    </div>
+
+    <!-- Error Announcement (aria-live) -->
+    @if (errorMessage()) {
+      <div id="error-region" class="error-region" aria-live="polite" role="status">
+        <span class="material-symbols-outlined" aria-hidden="true">error</span>
+        <span class="text-label-mono">{{ errorMessage() }}</span>
+      </div>
+    }
+
+    <!-- Problem Input Card -->
+    <div class="input-card">
+      <!-- Definition Textarea -->
+      <div class="field-group">
+        <label class="text-label-caps field-label" for="definition">INPUT_DEFINITION</label>
+        <div class="textarea-wrapper">
+          <textarea
+            id="definition"
+            class="textarea"
+            placeholder="I need X to improve, but Y degrades when I push it..."
+            [value]="definition()"
+            (input)="onDefinitionInput($event)"
+            rows="8"
+            aria-describedby="error-region"
+          ></textarea>
+          <div class="corner top-right" aria-hidden="true"></div>
+          <div class="corner bottom-left" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- Secondary Context Grid -->
+      <div class="context-grid">
+        <div class="field-group">
+          <label class="text-label-caps field-label" for="system-req">SYSTEM_REQUIREMENT</label>
+          <input
+            id="system-req"
+            type="text"
+            class="text-input text-label-mono"
+            placeholder="e.g. Minimal Weight"
+            [value]="systemRequirement()"
+            (input)="onSystemRequirementInput($event)"
+          />
+        </div>
+        <div class="field-group">
+          <label class="text-label-caps field-label" for="physical-limit">PHYSICAL_LIMIT</label>
+          <input
+            id="physical-limit"
+            type="text"
+            class="text-input text-label-mono"
+            placeholder="e.g. Structural Integrity"
+            [value]="physicalLimit()"
+            (input)="onPhysicalLimitInput($event)"
+          />
+        </div>
+      </div>
+
+      <!-- Action Row -->
+      <div class="action-row">
+        <div class="hint">
+          <span class="material-symbols-outlined hint-icon" aria-hidden="true">info</span>
+          <span class="text-label-mono hint-text">Format: [System Component] must [Desired Action] while [Constraint] is maintained.</span>
+        </div>
+        <button
+          type="button"
+          class="solve-btn text-label-caps"
+          [disabled]="!isValid()"
+          (click)="onSubmit()"
+        >
+          SOLVE PROBLEM
+          <span class="material-symbols-outlined arrow" aria-hidden="true">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Skeletal Technical Context (Decorative) -->
+    <div class="skeletal-grid" aria-hidden="true">
+      <div class="skeletal-box skeletal-x"></div>
+      <div class="skeletal-box skeletal-x"></div>
+      <div class="skeletal-box skeletal-lines">
+        <div class="skeleton-line line"></div>
+        <div class="skeleton-line line short"></div>
+        <div class="skeleton-line line shorter"></div>
+      </div>
+    </div>
+  </div>
+</div>
