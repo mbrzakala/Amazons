@@ -5,7 +5,9 @@ import { ProblemInput } from '../models/problem.model';
 import { MethodColumn, Solution } from '../models/solution.model';
 import { EvaluationRow, TrailNode, TrailEdge } from '../models/evaluation.model';
 import { SolveResponse } from '../models/api-response.model';
-import { mapSolveResponseToSessionState } from './response-mapper.util';
+import { toMethodColumn } from './map-solutions.util';
+import { toEvaluationRows } from './map-evaluation.util';
+import { buildTrailGraph } from './build-trail-graph.util';
 
 @Injectable()
 export class SolveSessionService {
@@ -47,27 +49,34 @@ export class SolveSessionService {
           this.problem.set(problem);
           this.stage.set('pipeline');
 
-          // Map the real backend response into session signals.
-          const state = mapSolveResponseToSessionState(response);
+          // Map the real backend response into session signals using pure mappers.
+          const trizSolution = response.solutions.find((s) => s.method === 'triz');
+          const ideationSolution = response.solutions.find((s) => s.method === 'ideation');
 
           // Set method columns and solutions.
-          if (state.methodColumns.length >= 1) {
-            this.trizReformulation.set(state.methodColumns[0]);
-            this.trizSolutions.set(state.methodColumns[0].solutions);
+          if (trizSolution) {
+            const col = toMethodColumn(trizSolution);
+            this.trizReformulation.set(col);
+            this.trizSolutions.set(col.solutions);
           }
-          if (state.methodColumns.length >= 2) {
-            this.secondMethodReformulation.set(state.methodColumns[1]);
-            this.secondMethodSolutions.set(state.methodColumns[1].solutions);
+          if (ideationSolution) {
+            const col = toMethodColumn(ideationSolution);
+            this.secondMethodReformulation.set(col);
+            this.secondMethodSolutions.set(col.solutions);
           }
 
           // Set evaluation and trail if evaluation succeeded.
-          if (state.evaluationRows.length > 0) {
-            this.evaluation.set(state.evaluationRows);
-            const rec = state.evaluationRows.find((r) => r.recommended) ?? null;
+          const evalRows = toEvaluationRows(response.solutions);
+          if (evalRows.length > 0) {
+            this.evaluation.set(evalRows);
+            const rec = evalRows.find((r) => r.recommended) ?? null;
             this.recommendation.set(rec);
           }
-          this.trailNodes.set(state.trailNodes);
-          this.trailEdges.set(state.trailEdges);
+
+          const recommendedId = response.evaluation?.recommendedCandidateId ?? null;
+          const { nodes, edges } = buildTrailGraph(response, response.solutions, recommendedId);
+          this.trailNodes.set(nodes);
+          this.trailEdges.set(edges);
         }),
       );
   }
