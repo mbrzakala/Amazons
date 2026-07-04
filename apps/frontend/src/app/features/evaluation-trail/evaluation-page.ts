@@ -5,13 +5,14 @@ import { ReasoningTrailComponent } from './reasoning-trail/reasoning-trail';
 import { NodeDetailPanelComponent } from './node-detail-panel.component';
 import { ButtonComponent } from '../../shared/ui/button.component';
 import { RdCardComponent } from '../../shared/ui/rd-card.component';
+import { ConfirmDialogComponent } from '../../shared/ui/confirm-dialog.component';
 import { SolveSessionService } from '../../core/solve-session.service';
 import { downloadJson } from '../../core/download.util';
 
 @Component({
   selector: 'app-evaluation-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [EvaluationTableComponent, ReasoningTrailComponent, NodeDetailPanelComponent, ButtonComponent, RdCardComponent],
+  imports: [EvaluationTableComponent, ReasoningTrailComponent, NodeDetailPanelComponent, ButtonComponent, RdCardComponent, ConfirmDialogComponent],
   template: `
     <div class="page">
       <div class="content-wrapper">
@@ -79,6 +80,18 @@ import { downloadJson } from '../../core/download.util';
             <span class="text-label-mono">Initiate Final Validation</span>
           </app-button>
         </div>
+
+        <!-- Confirm Dialog -->
+        <app-confirm-dialog
+          [open]="showConfirmDialog()"
+          title="Initiate Final Validation"
+          message="This will clear the current problem, candidates, and evaluation. Continue?"
+          confirmLabel="VALIDATE"
+          cancelLabel="CANCEL"
+          id="validation"
+          (confirmed)="onConfirmValidation()"
+          (cancelled)="onCancelValidation()"
+        />
       </div>
     </div>
   `,
@@ -153,6 +166,37 @@ import { downloadJson } from '../../core/download.util';
       background: var(--color-surface-container);
       border: var(--border-1);
     }
+
+    @media (max-width: 767px) {
+      .page {
+        padding: var(--space-md);
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .bottom-actions {
+        flex-wrap: wrap;
+        justify-content: stretch;
+      }
+
+      .trail-section ::ng-deep .card {
+        min-height: 400px;
+        overflow-x: auto;
+      }
+
+      .trail-section.expanded ::ng-deep .card {
+        min-height: 500px;
+      }
+    }
   `],
 })
 export class EvaluationPage implements OnInit {
@@ -162,6 +206,7 @@ export class EvaluationPage implements OnInit {
   readonly reportDownloaded = signal(false);
   readonly fullTrailView = signal(false);
   readonly selectedId = signal<string | null>(null);
+  readonly showConfirmDialog = signal(false);
 
   readonly selectedNode = computed(() => {
     const id = this.selectedId();
@@ -200,9 +245,16 @@ export class EvaluationPage implements OnInit {
   }
 
   onInitiateValidation(): void {
-    if (confirm('This will clear the current problem, candidates, and evaluation. Continue?')) {
-      this.session.reset();
-      this.router.navigate(['/']);
-    }
+    this.showConfirmDialog.set(true);
+  }
+
+  onConfirmValidation(): void {
+    this.showConfirmDialog.set(false);
+    this.session.reset();
+    this.router.navigate(['/']);
+  }
+
+  onCancelValidation(): void {
+    this.showConfirmDialog.set(false);
   }
 }
