@@ -18,7 +18,7 @@ generation_config = types.GenerateContentConfig(
 
 # Initialize the root agent which will be used by ADK CLI and API server.
 root_agent = Agent(
-    model="gemini-3.1-pro",
+    model="gemini-2.5-flash",
     name="root_agent",
     generate_content_config=generation_config,
     instruction=(
