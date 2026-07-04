@@ -14,6 +14,7 @@ import {
   provideNgDiagram,
   NgDiagramNodeTemplateMap,
   NgDiagramModelService,
+  type SelectionChangedEvent,
 } from 'ng-diagram';
 import { TrailNode, TrailEdge } from '../../../models/evaluation.model';
 import { TrailNodeTemplateComponent } from './trail-node-template';
@@ -47,7 +48,7 @@ import { TrailNodeTemplateComponent } from './trail-node-template';
           [model]="model()"
           [nodeTemplateMap]="nodeTemplateMap"
           [config]="config"
-          (nodeSelected)="onNodeSelected($event)"
+          (selectionChanged)="onSelectionChanged($event)"
         />
       </div>
 
@@ -145,8 +146,11 @@ export class ReasoningTrailComponent implements OnInit {
     selectedId: this.selectedId(),
   }));
 
-  onNodeSelected(id: string): void {
-    this.nodeSelected.emit(id);
+  onSelectionChanged(event: SelectionChangedEvent): void {
+    const id = event.selectedNodes[0]?.id;
+    if (id) {
+      this.nodeSelected.emit(id);
+    }
   }
 
   readonly config = {
