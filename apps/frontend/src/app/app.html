@@ -1,5 +1,9 @@
-<app-top-nav />
-<app-side-nav />
+<app-top-nav (menuToggle)="toggleSidebar()" />
+<app-side-nav [open]="sidebarOpen()" (closed)="closeSidebar()" />
+
+@if (sidebarOpen()) {
+  <div class="sidebar-backdrop" (click)="closeSidebar()" aria-hidden="true"></div>
+}
 
 <main class="main">
   <router-outlet />

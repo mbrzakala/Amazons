@@ -7,3 +7,21 @@
   margin-top: var(--topnav-height);
   min-height: calc(100vh - var(--topnav-height));
 }
+
+.sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .main {
+    margin-left: 0;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: var(--topnav-height) 0 0 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 40;
+  }
+}

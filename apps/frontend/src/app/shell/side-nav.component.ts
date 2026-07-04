@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive],
   template: `
-    <aside class="sidebar">
+    <aside class="sidebar" [class.open]="open()">
       <div class="sidebar-header">
         <h2 class="text-headline-md">R&amp;D Lab</h2>
         <p class="text-label-mono subtitle">Technical Reasoning</p>
@@ -18,6 +18,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           class="nav-item"
+          ariaCurrentWhenActive="page"
+          (click)="onNavClick()"
         >
           <span class="material-symbols-outlined" aria-hidden="true">add_circle</span>
           <span class="text-label-mono">New Solve</span>
@@ -26,6 +28,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           routerLink="/evaluation"
           routerLinkActive="active"
           class="nav-item"
+          ariaCurrentWhenActive="page"
+          (click)="onNavClick()"
         >
           <span class="material-symbols-outlined" aria-hidden="true">history</span>
           <span class="text-label-mono">History</span>
@@ -123,6 +127,24 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       outline: var(--border-2-primary);
       outline-offset: -2px;
     }
+
+    @media (max-width: 767px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.2s ease;
+        z-index: 50;
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+    }
   `],
 })
-export class SideNavComponent {}
+export class SideNavComponent {
+  readonly open = input<boolean>(false);
+  readonly closed = output<void>();
+
+  onNavClick(): void {
+    this.closed.emit();
+  }
+}

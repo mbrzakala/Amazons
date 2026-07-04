@@ -103,3 +103,23 @@ app-button:hover:not(.disabled) .arrow {
 .line.shorter {
   width: 50%;
 }
+
+@media (max-width: 767px) {
+  .page {
+    padding: var(--space-md);
+  }
+
+  .context-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skeletal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-md);
+  }
+}

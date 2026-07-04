@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IconButtonComponent } from '../shared/ui/icon-button.component';
 
@@ -9,14 +9,23 @@ import { IconButtonComponent } from '../shared/ui/icon-button.component';
   template: `
     <nav class="topnav" aria-label="Top navigation">
       <div class="topnav-left">
+        <button
+          type="button"
+          class="menu-toggle"
+          aria-label="Toggle navigation menu"
+          (click)="menuToggle.emit()"
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+        </button>
         <span class="wordmark text-headline-md">BuildWithAI</span>
-        <div class="topnav-tabs" role="tablist">
+        <div class="topnav-tabs" role="tablist" aria-label="Main views">
           <a
             routerLink="/"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
             class="tab"
             role="tab"
+            ariaCurrentWhenActive="page"
             >Laboratory</a
           >
           <a
@@ -24,6 +33,7 @@ import { IconButtonComponent } from '../shared/ui/icon-button.component';
             routerLinkActive="active"
             class="tab"
             role="tab"
+            ariaCurrentWhenActive="page"
             >History</a
           >
         </div>
@@ -102,6 +112,25 @@ import { IconButtonComponent } from '../shared/ui/icon-button.component';
       outline: var(--border-2-primary);
       outline-offset: -2px;
     }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-xs);
+      color: var(--color-on-surface);
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 767px) {
+      .menu-toggle {
+        display: flex;
+      }
+    }
   `],
 })
-export class TopNavComponent {}
+export class TopNavComponent {
+  readonly menuToggle = output<void>();
+}
