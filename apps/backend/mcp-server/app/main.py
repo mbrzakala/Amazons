@@ -32,6 +32,8 @@ mcp = FastMCP(
     lifespan=lifespan,
     stateless_http=True,
     json_response=True,
+    host=config.MCP_HOST,
+    port=config.MCP_PORT,
 )
 
 # ---------------------------------------------------------------------------
