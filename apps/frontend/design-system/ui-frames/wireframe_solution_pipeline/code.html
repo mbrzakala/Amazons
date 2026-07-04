@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildWithAI - Comparison Pipeline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .xbox-placeholder {
+            position: relative;
+            background-color: #F9FAFB;
+            border: 1px solid #D1D5DB;
+        }
+        .xbox-placeholder::before,
+        .xbox-placeholder::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top right, transparent calc(50% - 0.5px), #D1D5DB 50%, transparent calc(50% + 0.5px)),
+                        linear-gradient(to top left, transparent calc(50% - 0.5px), #D1D5DB 50%, transparent calc(50% + 0.5px));
+        }
+        .reasoning-connector {
+            position: relative;
+        }
+        .reasoning-connector::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            width: 1px;
+            height: 24px;
+            background-color: #D1D5DB;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c6c6cd",
+                        "surface": "#f8f9fa",
+                        "on-background": "#191c1d",
+                        "primary-fixed-dim": "#c0c6db",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary-fixed": "#dce2f3",
+                        "background": "#f8f9fa",
+                        "on-tertiary-fixed": "#261906",
+                        "on-secondary-fixed": "#151c27",
+                        "on-primary": "#ffffff",
+                        "secondary": "#585f6c",
+                        "surface-variant": "#e1e3e4",
+                        "tertiary": "#000000",
+                        "on-surface": "#191c1d",
+                        "secondary-container": "#dce2f3",
+                        "on-surface-variant": "#45464c",
+                        "inverse-primary": "#c0c6db",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface-bright": "#f8f9fa",
+                        "inverse-surface": "#2e3132",
+                        "outline": "#76777d",
+                        "primary": "#000000",
+                        "tertiary-fixed-dim": "#dcc2a4",
+                        "on-primary-fixed-variant": "#404758",
+                        "on-tertiary-fixed-variant": "#55442d",
+                        "tertiary-container": "#261906",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#141b2b",
+                        "tertiary-fixed": "#f9debf",
+                        "on-secondary-container": "#5e6572",
+                        "on-secondary-fixed-variant": "#404754",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#575e70",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c0c7d6",
+                        "on-primary-fixed": "#141b2b",
+                        "surface-container-low": "#f3f4f5",
+                        "on-tertiary-container": "#968065",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#dce2f7",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary-container": "#7d8497",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "unit": "4px",
+                        "xl": "48px",
+                        "gutter": "16px",
+                        "margin-page": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist"],
+                        "title-sm": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">BuildWithAI</span>
+<nav class="hidden md:flex ml-xl gap-lg">
+<a class="text-primary font-bold border-b-2 border-primary py-xs" href="#">New Solve</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors py-xs px-sm" href="#">History</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors py-xs px-sm" href="#">Methods</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">help</span>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[260px] bg-surface-container-low border-r border-outline-variant flex flex-col py-md overflow-y-auto">
+<div class="px-lg mb-xl">
+<h2 class="font-headline-md text-primary">R&D Lab</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant opacity-70">Technical Reasoning</p>
+</div>
+<div class="flex flex-col gap-xs mb-xl">
+<a class="flex items-center gap-sm text-primary border-l-2 border-primary pl-4 py-2 font-bold bg-surface-container" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-mono text-label-mono">New Solve</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant pl-4 py-2 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-mono text-label-mono">History</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant pl-4 py-2 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-mono text-label-mono">Methods</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant pl-4 py-2 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-mono text-label-mono">Lab Tools</span>
+</a>
+</div>
+<button class="mx-lg mb-xl py-sm bg-primary text-on-primary font-label-mono text-label-mono uppercase tracking-widest hover:opacity-90 active:scale-[0.98] transition-all">
+            New Experiment
+        </button>
+<div class="mt-auto flex flex-col gap-xs">
+<a class="flex items-center gap-sm text-on-surface-variant pl-4 py-2 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-mono text-label-mono">Settings</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant pl-4 py-2 hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-mono text-label-mono">Documentation</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-[260px] mt-16 p-lg">
+<header class="mb-xl flex justify-between items-end">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-xs block">Workflow Stage</span>
+<h1 class="font-headline-lg text-headline-lg">Comparison Pipeline: Reformulation & Generation</h1>
+</div>
+<div class="flex gap-sm">
+<div class="flex items-center gap-xs px-sm py-1 border border-primary rounded-full">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-mono text-label-mono uppercase">Processing</span>
+</div>
+</div>
+</header>
+<!-- Stage Divider: Reformulation -->
+<div class="relative py-md mb-lg">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant"></div>
+</div>
+<div class="relative flex justify-start">
+<span class="bg-background pr-md font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Stage 01: Problem Reformulation</span>
+</div>
+</div>
+<!-- Columns Container -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
+<!-- Left Column: TRIZ -->
+<div class="flex flex-col gap-lg">
+<div class="flex items-center justify-between mb-sm">
+<h3 class="font-headline-md text-headline-md">TRIZ Contradiction Matrix</h3>
+<span class="flex items-center gap-xs border border-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-tighter">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Done
+                    </span>
+</div>
+<!-- TRIZ Reformulation Card -->
+<div class="p-lg bg-surface-container-lowest border border-outline-variant relative overflow-hidden">
+<div class="flex flex-col gap-md">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">IMPROVING PARAMETER</span>
+<div class="p-sm bg-surface border border-outline-variant font-label-mono text-label-mono">
+                                #14: Degree of automation
+                            </div>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">WORSENING PARAMETER</span>
+<div class="p-sm bg-surface border border-outline-variant font-label-mono text-label-mono">
+                                #36: Complexity of device
+                            </div>
+</div>
+<div class="pt-md border-t border-outline-variant">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">CONTRADICTION STATEMENT</span>
+<p class="font-body-md text-body-md italic leading-relaxed">
+                                Increasing the level of autonomous error-correction logic leads to excessive hardware overhead and system-wide latency.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Stage Divider: Solution Generation -->
+<div class="relative py-md mt-xl">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant border-dashed"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="bg-background px-md font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase italic">Proposed Solutions (TRIZ)</span>
+</div>
+</div>
+<!-- Solution Cards Stack -->
+<div class="flex flex-col gap-md">
+<!-- Solution 1 -->
+<div class="border border-outline-variant p-md hover:border-primary transition-all group">
+<div class="flex justify-between items-start mb-sm">
+<h4 class="font-title-sm text-title-sm font-bold">Principle 1: Segmentation</h4>
+<span class="font-label-caps text-label-caps bg-surface-container-high px-2 py-0.5 border border-outline-variant">DONE</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-2 mb-md">
+                            Divide the error-correction module into independent, asynchronous nodes. This reduces central processing bottlenecks by isolating local fault handling.
+                        </p>
+<div class="pt-sm border-t border-outline-variant flex justify-between items-center">
+<span class="font-label-mono text-[10px] text-on-surface-variant uppercase">Provenance: Matrix Cell (14/36)</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Solution 2 -->
+<div class="border border-outline-variant p-md hover:border-primary transition-all group">
+<div class="flex justify-between items-start mb-sm">
+<h4 class="font-title-sm text-title-sm font-bold">Principle 10: Preliminary Action</h4>
+<span class="font-label-caps text-label-caps bg-surface-container-high px-2 py-0.5 border border-outline-variant">DONE</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-2 mb-md">
+                            Perform data validation prior to main processing cycles. Pre-emptive filtering removes the need for complex reactive error logic during peak execution.
+                        </p>
+<div class="pt-sm border-t border-outline-variant flex justify-between items-center">
+<span class="font-label-mono text-[10px] text-on-surface-variant uppercase">Provenance: Inventive Principle #10</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Solution 3 (Running) -->
+<div class="border border-primary border-dashed p-md bg-surface-container-low opacity-80">
+<div class="flex justify-between items-start mb-sm">
+<h4 class="font-title-sm text-title-sm font-bold italic">Principle 28: Mechanics Substitution</h4>
+<span class="font-label-caps text-label-caps bg-primary text-on-primary px-2 py-0.5 animate-pulse">RUNNING</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-2 mb-md italic">
+                            Synthesizing optical-based feedback loops to replace existing electrical signal paths...
+                        </p>
+<div class="pt-sm border-t border-outline-variant">
+<div class="h-1 bg-outline-variant w-full overflow-hidden">
+<div class="h-full bg-primary w-1/3 animate-[progress_2s_ease-in-out_infinite]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Six Thinking Hats -->
+<div class="flex flex-col gap-lg">
+<div class="flex items-center justify-between mb-sm">
+<h3 class="font-headline-md text-headline-md">Six Thinking Hats Analysis</h3>
+<span class="flex items-center gap-xs border border-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-tighter">
+<span class="material-symbols-outlined text-[12px] animate-spin">refresh</span> Running
+                    </span>
+</div>
+<!-- 6 Hats Reformulation Card -->
+<div class="p-lg bg-surface-container-lowest border border-outline-variant grid grid-cols-2 gap-md">
+<div class="p-sm border border-outline-variant">
+<div class="flex items-center gap-xs mb-1">
+<div class="w-3 h-3 bg-white border border-black"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">White Hat</span>
+</div>
+<p class="text-[12px] leading-tight">Latency is currently at 450ms. Error rate is 1.2% per 10k ops.</p>
+</div>
+<div class="p-sm border border-outline-variant">
+<div class="flex items-center gap-xs mb-1">
+<div class="w-3 h-3 bg-red-600"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Red Hat</span>
+</div>
+<p class="text-[12px] leading-tight">Fear of system failure during high-demand surges is high.</p>
+</div>
+<div class="p-sm border border-outline-variant">
+<div class="flex items-center gap-xs mb-1">
+<div class="w-3 h-3 bg-black"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Black Hat</span>
+</div>
+<p class="text-[12px] leading-tight">Complexity might lead to unmaintainable codebase long-term.</p>
+</div>
+<div class="p-sm border border-outline-variant">
+<div class="flex items-center gap-xs mb-1">
+<div class="w-3 h-3 bg-yellow-400"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Yellow Hat</span>
+</div>
+<p class="text-[12px] leading-tight">Increased automation will significantly reduce manual QA costs.</p>
+</div>
+<div class="p-sm border border-outline-variant">
+<div class="flex items-center gap-xs mb-1">
+<div class="w-3 h-3 bg-green-500"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Green Hat</span>
+</div>
+<p class="text-[12px] leading-tight">What if we used ML to predict errors before they occur?</p>
+</div>
+<div class="p-sm border border-outline-variant border-primary border-2">
+<div class="flex items-center gap-xs mb-1">
+<div class="w-3 h-3 bg-blue-600"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Blue Hat</span>
+</div>
+<p class="text-[12px] font-bold leading-tight">Focus: Synthesis of safety and performance metrics.</p>
+</div>
+</div>
+<!-- Stage Divider: Solution Generation -->
+<div class="relative py-md mt-xl">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant border-dashed"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="bg-background px-md font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase italic">Proposed Solutions (Hats)</span>
+</div>
+</div>
+<!-- Solution Cards Stack -->
+<div class="flex flex-col gap-md">
+<!-- Solution 1 -->
+<div class="border border-outline-variant p-md hover:border-primary transition-all group">
+<div class="flex justify-between items-start mb-sm">
+<h4 class="font-title-sm text-title-sm font-bold">Predictive Guardrails</h4>
+<span class="font-label-caps text-label-caps bg-surface-container-high px-2 py-0.5 border border-outline-variant">DONE</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-2 mb-md">
+                            Integrate light-weight Bayesian filters to monitor data flow trends. Addressing Green Hat concerns by predicting failure points.
+                        </p>
+<div class="pt-sm border-t border-outline-variant flex justify-between items-center">
+<span class="font-label-mono text-[10px] text-on-surface-variant uppercase">Provenance: Green & Blue Hats</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Solution 2 -->
+<div class="border border-outline-variant p-md hover:border-primary transition-all group">
+<div class="flex justify-between items-start mb-sm">
+<h4 class="font-title-sm text-title-sm font-bold">Degraded Mode Fallback</h4>
+<span class="font-label-caps text-label-caps bg-surface-container-high px-2 py-0.5 border border-outline-variant">DONE</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-2 mb-md">
+                            Implement a "Safe State" protocol that disables non-critical automation when latency hits thresholds. Alleviates Red/Black Hat risks.
+                        </p>
+<div class="pt-sm border-t border-outline-variant flex justify-between items-center">
+<span class="font-label-mono text-[10px] text-on-surface-variant uppercase">Provenance: Red & Black Hats</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Solution 3 (Placeholder for Generation) -->
+<div class="xbox-placeholder h-32 border-dashed border-2 flex items-center justify-center">
+<div class="relative z-10 bg-white px-md py-sm border border-outline-variant text-[10px] font-label-mono uppercase tracking-widest">
+                            Generating Solution 3...
+                        </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Global Evaluation Trigger -->
+<footer class="mt-xl pt-lg border-t-2 border-primary flex justify-center">
+<div class="max-w-2xl text-center">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-md">Evaluation Phase will begin automatically once all generators are 'DONE'.</p>
+<div class="flex gap-md justify-center">
+<button class="px-xl py-md bg-white border-2 border-primary font-bold hover:bg-surface-container transition-all active:scale-95">EXPORT WORKFLOW</button>
+<button class="px-xl py-md bg-primary text-on-primary font-bold hover:opacity-90 transition-all active:scale-95">SYNTHESIZE RESULTS</button>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interaction for progress bar
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes progress {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(300%); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Simple log to confirm rendering
+        console.log("R&D Lab Pipeline Rendered.");
+    </script>
+</body></html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .skeleton-line {
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .orthogonal-line {
+            position: absolute;
+            background-color: #D1D5DB;
+            z-index: 0;
+        }
+        .node-container {
+            position: relative;
+            z-index: 10;
+        }
+        /* Custom scrollbar for technical look */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; }
+        ::-webkit-scrollbar-thumb:hover { background: #111827; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#c6c6cd",
+                      "surface": "#f8f9fa",
+                      "on-background": "#191c1d",
+                      "primary-fixed-dim": "#c0c6db",
+                      "surface-container-highest": "#e1e3e4",
+                      "secondary-fixed": "#dce2f3",
+                      "background": "#f8f9fa",
+                      "on-tertiary-fixed": "#261906",
+                      "on-secondary-fixed": "#151c27",
+                      "on-primary": "#ffffff",
+                      "secondary": "#585f6c",
+                      "surface-variant": "#e1e3e4",
+                      "tertiary": "#000000",
+                      "on-surface": "#191c1d",
+                      "secondary-container": "#dce2f3",
+                      "on-surface-variant": "#45464c",
+                      "inverse-primary": "#c0c6db",
+                      "on-tertiary": "#ffffff",
+                      "inverse-on-surface": "#f0f1f2",
+                      "surface-bright": "#f8f9fa",
+                      "inverse-surface": "#2e3132",
+                      "outline": "#76777d",
+                      "primary": "#000000",
+                      "tertiary-fixed-dim": "#dcc2a4",
+                      "on-primary-fixed-variant": "#404758",
+                      "on-tertiary-fixed-variant": "#55442d",
+                      "tertiary-container": "#261906",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "primary-container": "#141b2b",
+                      "tertiary-fixed": "#f9debf",
+                      "on-secondary-container": "#5e6572",
+                      "on-secondary-fixed-variant": "#404754",
+                      "on-secondary": "#ffffff",
+                      "surface-tint": "#575e70",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#c0c7d6",
+                      "on-primary-fixed": "#141b2b",
+                      "surface-container-low": "#f3f4f5",
+                      "on-tertiary-container": "#968065",
+                      "surface-container": "#edeeef",
+                      "primary-fixed": "#dce2f7",
+                      "surface-container-high": "#e7e8e9",
+                      "on-primary-container": "#7d8497",
+                      "surface-dim": "#d9dadb",
+                      "surface-container-lowest": "#ffffff",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "xs": "4px",
+                      "unit": "4px",
+                      "xl": "48px",
+                      "gutter": "16px",
+                      "margin-page": "32px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Geist"],
+                      "title-sm": ["Geist"],
+                      "body-md": ["Geist"],
+                      "label-mono": ["JetBrains Mono"],
+                      "label-caps": ["JetBrains Mono"],
+                      "headline-lg": ["Geist"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">BuildWithAI</span>
+<nav class="hidden md:flex ml-xl gap-lg">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono text-label-mono hover:bg-surface-container-high transition-colors px-sm py-xs" href="#">DASHBOARD</a>
+<a class="text-primary dark:text-inverse-primary font-bold border-b-2 border-primary font-label-mono text-label-mono px-sm py-xs" href="#">EVALUATION</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono text-label-mono hover:bg-surface-container-high transition-colors px-sm py-xs" href="#">REPORTS</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant p-sm hover:bg-surface-container-high transition-colors">settings</button>
+<button class="material-symbols-outlined text-on-surface-variant p-sm hover:bg-surface-container-high transition-colors">help</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-screen w-[260px] bg-surface-container-low dark:bg-inverse-surface border-r border-outline-variant dark:border-outline flex flex-col gap-sm py-md">
+<div class="px-lg mb-md">
+<div class="font-headline-md text-headline-md text-primary dark:text-inverse-primary leading-tight">R&amp;D Lab</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant">Technical Reasoning</div>
+</div>
+<nav class="flex-grow flex flex-col">
+<a class="text-on-surface-variant dark:text-on-surface-variant pl-4 py-2 flex items-center gap-md hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span class="font-label-mono text-label-mono uppercase">New Solve</span>
+</a>
+<a class="text-primary dark:text-inverse-primary border-l-2 border-primary pl-4 py-2 font-bold bg-surface-container flex items-center gap-md group" href="#">
+<span class="material-symbols-outlined text-[20px]">history</span>
+<span class="font-label-mono text-label-mono uppercase">History</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant pl-4 py-2 flex items-center gap-md hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+<span class="font-label-mono text-label-mono uppercase">Methods</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant pl-4 py-2 flex items-center gap-md hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]">biotech</span>
+<span class="font-label-mono text-label-mono uppercase">Lab Tools</span>
+</a>
+</nav>
+<div class="mt-auto px-md pb-xl space-y-xs">
+<button class="w-full bg-primary text-on-primary py-sm font-label-mono text-label-mono uppercase font-bold tracking-wider hover:opacity-90 active:scale-[0.98] transition-all">
+                New Experiment
+            </button>
+<div class="h-[1px] bg-outline-variant my-md"></div>
+<a class="text-on-surface-variant dark:text-on-surface-variant pl-4 py-2 flex items-center gap-md hover:bg-surface-container-highest transition-all text-label-mono font-label-mono uppercase" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span>Settings</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant pl-4 py-2 flex items-center gap-md hover:bg-surface-container-highest transition-all text-label-mono font-label-mono uppercase" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span>Documentation</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-[260px] pt-16 min-h-screen">
+<div class="p-lg max-w-[1400px] mx-auto space-y-lg">
+<!-- Page Header -->
+<div class="flex justify-between items-end border-b border-primary pb-md">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Workflow Stage</span>
+<h1 class="font-headline-lg text-headline-lg text-primary uppercase tracking-tight">Evaluation &amp; Reasoning Trail</h1>
+</div>
+<div class="flex gap-sm">
+<button class="px-md py-sm border border-primary font-label-mono text-label-mono flex items-center gap-xs hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        DOWNLOAD REPORT
+                    </button>
+<button class="px-md py-sm bg-primary text-on-primary font-label-mono text-label-mono flex items-center gap-xs hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                        VIEW FULL TRAIL
+                    </button>
+</div>
+</div>
+<!-- Section 1: Evaluation Table -->
+<section class="border border-outline-variant bg-white p-lg">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<h2 class="font-title-sm text-title-sm uppercase">Evaluation Table</h2>
+</div>
+<div class="overflow-x-auto">
+<div class="absolute -left-2 top-1/2 -translate-y-1/2 bg-primary text-on-primary px-xs py-[2px] font-label-caps text-[9px] rotate-[-90deg]">RECOMMENDED</div><table class="w-full border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-y border-outline-variant font-label-caps text-label-caps text-left">
+<th class="p-md border-r border-outline-variant">Solution Title</th>
+<th class="p-md border-r border-outline-variant">Method</th>
+<th class="p-md border-r border-outline-variant text-center">Feasibility</th>
+<th class="p-md border-r border-outline-variant text-center">Novelty</th>
+<th class="p-md border-r border-outline-variant text-center">Impact</th>
+<th class="p-md border-r border-outline-variant text-center">Risk</th>
+<th class="p-md text-center">Total Score</th>
+</tr>
+</thead>
+<tbody class="font-label-mono text-label-mono">
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-md border-r border-outline-variant font-bold">Quantum-Shift Catalysis</td>
+<td class="p-md border-r border-outline-variant">First Principles</td>
+<td class="p-md border-r border-outline-variant text-center">0.85</td>
+<td class="p-md border-r border-outline-variant text-center">0.92</td>
+<td class="p-md border-r border-outline-variant text-center">0.95</td>
+<td class="p-md border-r border-outline-variant text-center">0.30</td>
+<td class="p-md text-center bg-surface-container font-bold">2.42</td>
+</tr>
+<!-- RECOMMENDED ROW -->
+<tr class="border-2 border-primary bg-primary-fixed ring-1 ring-primary relative">
+<td class="p-md border-r border-primary font-extrabold flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    Synthetic Neural Scaffold
+                                </td>
+<td class="p-md border-r border-primary">Biomimetic R&amp;D</td>
+<td class="p-md border-r border-primary text-center">0.94</td>
+<td class="p-md border-r border-primary text-center">0.98</td>
+<td class="p-md border-r border-primary text-center">0.99</td>
+<td class="p-md border-r border-primary text-center">0.12</td>
+<td class="p-md text-center bg-primary text-on-primary font-extrabold">2.79</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-md border-r border-outline-variant font-bold">Modular Kinetic Loop</td>
+<td class="p-md border-r border-outline-variant">TRIZ Analysis</td>
+<td class="p-md border-r border-outline-variant text-center">0.70</td>
+<td class="p-md border-r border-outline-variant text-center">0.65</td>
+<td class="p-md border-r border-outline-variant text-center">0.82</td>
+<td class="p-md border-r border-outline-variant text-center">0.45</td>
+<td class="p-md text-center bg-surface-container">1.72</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-md border-r border-outline-variant font-bold">Passive Thermal Sink</td>
+<td class="p-md border-r border-outline-variant">Analogical Transfer</td>
+<td class="p-md border-r border-outline-variant text-center">0.98</td>
+<td class="p-md border-r border-outline-variant text-center">0.42</td>
+<td class="p-md border-r border-outline-variant text-center">0.55</td>
+<td class="p-md border-r border-outline-variant text-center">0.05</td>
+<td class="p-md text-center bg-surface-container">1.90</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-md border-r border-outline-variant font-bold">Isomorphic Grid Redesign</td>
+<td class="p-md border-r border-outline-variant">SCAMPER</td>
+<td class="p-md border-r border-outline-variant text-center">0.62</td>
+<td class="p-md border-r border-outline-variant text-center">0.78</td>
+<td class="p-md border-r border-outline-variant text-center">0.74</td>
+<td class="p-md border-r border-outline-variant text-center">0.55</td>
+<td class="p-md text-center bg-surface-container">1.59</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-md border-r border-outline-variant font-bold">Graphene-Pulse Array</td>
+<td class="p-md border-r border-outline-variant">Material Substitution</td>
+<td class="p-md border-r border-outline-variant text-center">0.45</td>
+<td class="p-md border-r border-outline-variant text-center">0.95</td>
+<td class="p-md border-r border-outline-variant text-center">0.88</td>
+<td class="p-md border-r border-outline-variant text-center">0.68</td>
+<td class="p-md text-center bg-surface-container">1.60</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Section 2: Reasoning Trail (NGD) -->
+<section class="border border-outline-variant bg-white p-lg relative min-h-[600px] overflow-hidden">
+<div class="flex justify-between items-center mb-xl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">account_tree</span>
+<h2 class="font-title-sm text-title-sm uppercase">Reasoning Trail (NGD)</h2>
+</div>
+<div class="flex gap-md font-label-mono text-[10px]">
+<div class="flex items-center gap-xs"><div class="w-3 h-3 bg-primary"></div> NODE</div>
+<div class="flex items-center gap-xs"><div class="w-3 h-3 border border-outline-variant"></div> STEP</div>
+<div class="flex items-center gap-xs"><div class="w-3 h-[1px] bg-outline-variant"></div> CONNECTION</div>
+</div>
+</div>
+<!-- Directed Graph Wireframe -->
+<div class="relative w-full h-[500px]">
+<!-- Root Node -->
+<div class="node-container absolute left-1/2 top-0 -translate-x-1/2 w-48 p-sm border border-primary text-center">
+<span class="font-label-caps text-[9px] text-on-surface-variant block mb-xs">INITIAL STATE</span>
+<div class="font-label-mono text-label-mono font-bold uppercase">Problem Root</div>
+</div>
+<!-- Level 1 Connections -->
+<div class="orthogonal-line w-[1px] h-12 left-1/2 top-[66px]"></div>
+<div class="orthogonal-line h-[1px] w-[600px] left-1/2 -translate-x-1/2 top-[114px]"></div>
+<div class="orthogonal-line w-[1px] h-10 left-[calc(50%-300px)] top-[114px]"></div>
+<div class="orthogonal-line w-[1px] h-10 left-[calc(50%)] top-[114px]"></div>
+<div class="orthogonal-line w-[1px] h-10 left-[calc(50%+300px)] top-[114px]"></div>
+<!-- Level 1 Nodes: Reformulations -->
+<div class="node-container absolute left-[calc(50%-300px)] top-[154px] -translate-x-1/2 w-56 p-sm border border-outline-variant bg-surface-container-low">
+<span class="font-label-caps text-[9px] text-on-surface-variant block mb-xs">REFORMULATION A</span>
+<div class="font-label-mono text-label-mono skeleton-line h-3 w-full mb-1"></div>
+<div class="font-label-mono text-label-mono skeleton-line h-3 w-4/5"></div>
+</div>
+<div class="node-container absolute left-1/2 top-[154px] -translate-x-1/2 w-56 p-sm border border-outline-variant bg-surface-container-low">
+<span class="font-label-caps text-[9px] text-on-surface-variant block mb-xs">REFORMULATION B</span>
+<div class="font-label-mono text-label-mono skeleton-line h-3 w-full mb-1"></div>
+<div class="font-label-mono text-label-mono skeleton-line h-3 w-3/4"></div>
+</div>
+<div class="node-container absolute left-[calc(50%+300px)] top-[154px] -translate-x-1/2 w-56 p-sm border border-outline-variant bg-surface-container-low">
+<span class="font-label-caps text-[9px] text-on-surface-variant block mb-xs">REFORMULATION C</span>
+<div class="font-label-mono text-label-mono skeleton-line h-3 w-full mb-1"></div>
+<div class="font-label-mono text-label-mono skeleton-line h-3 w-5/6"></div>
+</div>
+<!-- Level 2 Connections -->
+<div class="orthogonal-line w-[1px] h-12 left-1/2 top-[220px]"></div>
+<div class="orthogonal-line h-[1px] w-[400px] left-1/2 -translate-x-1/2 top-[268px]"></div>
+<div class="orthogonal-line w-[1px] h-10 left-[calc(50%-200px)] top-[268px]"></div>
+<div class="orthogonal-line w-[1px] h-10 left-[calc(50%+200px)] top-[268px]"></div>
+<!-- Level 2 Nodes: Solutions -->
+<div class="node-container absolute left-[calc(50%-200px)] top-[308px] -translate-x-1/2 w-48 p-sm border-2 border-outline-variant">
+<span class="font-label-caps text-[9px] text-on-surface-variant block mb-xs">CANDIDATE 01</span>
+<div class="font-label-mono text-label-mono text-xs uppercase">Quantum-Shift</div>
+</div>
+<div class="node-container absolute left-[calc(50%+200px)] top-[308px] -translate-x-1/2 w-48 p-sm border-2 border-primary bg-primary text-on-primary">
+<span class="font-label-caps text-[9px] opacity-70 block mb-xs">CANDIDATE 02</span>
+<div class="font-label-mono text-label-mono text-xs uppercase font-bold">Neural Scaffold</div>
+</div>
+<!-- Level 3 Connection -->
+<div class="orthogonal-line w-[1px] h-12 left-[calc(50%+200px)] top-[374px]"></div>
+<div class="orthogonal-line h-[1px] w-[200px] right-[calc(50%-200px)] top-[422px]"></div>
+<div class="orthogonal-line w-[1px] h-10 left-1/2 top-[422px]"></div>
+<!-- Final Node -->
+<div class="node-container absolute left-1/2 top-[462px] -translate-x-1/2 w-64 p-md border-2 border-primary bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+<span class="font-label-caps text-label-caps text-primary block mb-xs">FINAL RECOMMENDATION</span>
+<div class="font-label-mono text-headline-md uppercase font-bold text-center leading-none">Scaffold-A1</div>
+</div>
+<!-- Background Grid for Schematic Feel -->
+<div class="absolute inset-0 z-[-1] opacity-5 pointer-events-none" style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;"></div>
+</div>
+<!-- Legend / Labels -->
+<div class="absolute bottom-4 right-4 flex gap-lg">
+<div class="flex items-center gap-xs text-label-caps text-[9px] uppercase">
+<span class="w-3 h-3 border border-outline-variant bg-surface-container-low"></span> Step Node
+                    </div>
+<div class="flex items-center gap-xs text-label-caps text-[9px] uppercase">
+<span class="w-3 h-3 border-2 border-primary"></span> Critical Path
+                    </div>
+</div>
+</section>
+<!-- Bottom Actions -->
+<div class="flex justify-end p-md bg-surface-container border border-outline-variant gap-md">
+<button class="px-xl py-md font-label-mono text-label-mono bg-white border border-outline-variant hover:bg-surface-container-highest transition-all uppercase">
+                    Back to Selection
+                </button>
+<button class="px-xl py-md font-label-mono text-label-mono bg-primary text-on-primary font-bold hover:opacity-90 active:translate-y-px transition-all uppercase">
+                    Initiate Final Validation
+                </button>
+</div>
+</div>
+</main>
+<!-- X-Box Placeholder (Contextual) -->
+<div class="hidden md:block fixed right-4 bottom-4 w-48 h-32 border border-outline-variant bg-surface-container-low opacity-50">
+<div class="relative w-full h-full">
+<svg class="absolute inset-0 w-full h-full text-outline-variant" preserveaspectratio="none">
+<line stroke="currentColor" stroke-width="1" x1="0" x2="100%" y1="0" y2="100%"></line>
+<line stroke="currentColor" stroke-width="1" x1="100%" x2="0" y1="0" y2="100%"></line>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-caps text-[8px] text-on-surface-variant">
+                DIAGNOSTIC VIEWPORT
+            </div>
+</div>
+</div>
+<script>
+        // Simple Micro-interaction for hover states
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                if (!row.classList.contains('border-primary')) {
+                    row.style.transform = 'translateX(4px)';
+                }
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'translateX(0)';
+            });
+            row.style.transition = 'transform 0.2s ease-out';
+        });
+    </script>
+</body></html>
