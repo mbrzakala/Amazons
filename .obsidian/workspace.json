@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
+                "file": "Hackathon Wiki/stages/1-discovery/contest task.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2-persona"
+              "title": "contest task"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
+                "file": "Hackathon Wiki/stages/1-discovery/contest task.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Linki zwrotne do 2-persona"
+              "title": "Linki zwrotne do contest task"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
+                "file": "Hackathon Wiki/stages/1-discovery/contest task.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Łącza wychodzące od 2-persona"
+              "title": "Łącza wychodzące od contest task"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
+                "file": "Hackathon Wiki/stages/1-discovery/contest task.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Konspekt 2-persona"
+              "title": "Konspekt contest task"
             }
           }
         ]
@@ -185,35 +185,51 @@
   },
   "active": "475ee9a6788f6ed0",
   "lastOpenFiles": [
+    "apps/frontend/design-system/design-system-presentation.md",
+    "apps/frontend/design-system/design-cohesion-narrative.md",
+    "apps/frontend/design-system/rwd-strategy.md",
+    "stitch_invention_assistant_ui_wireframes (1).zip",
+    "dist/apps/frontend/browser/chunk-GA62HGQQ.js",
+    "dist/apps/frontend/browser/main-XACWTGDT.js",
+    "dist/apps/frontend/browser/favicon.ico",
+    "dist/apps/frontend/browser/styles-YKQSHARY.css",
+    "dist/apps/frontend/browser/index.html",
+    "dist/apps/frontend/browser/chunk-RFZGYOPJ.js",
+    "dist/apps/frontend/browser/chunk-KKITPW7D.js",
+    "dist/apps/frontend/prerendered-routes.json",
+    "dist/apps/frontend/browser/chunk-JFD6C2V7.js",
+    "node_modules/prisma/build/public/assets/tick-indeterminate.aec8a44d.svg",
+    "node_modules/prisma/build/public/assets/tick.8cbb6a93.svg",
+    "node_modules/prisma/build/public/assets/sun.89774753.svg",
+    "node_modules/prisma/build/public/assets/string.ea615a24.svg",
+    "node_modules/prisma/build/public/assets/settings.5ad25af2.svg",
+    "node_modules/prisma/build/public/assets/search.2ed766ce.svg",
+    "node_modules/prisma/build/public/assets/refresh.d5448ccc.svg",
+    "node_modules/prisma/build/public/assets/plus.8fbf7ad3.svg",
+    "node_modules/prisma/build/public/assets/panel-left.a81e4b97.svg",
+    "node_modules/prisma/build/public/assets/play.8811691e.svg",
+    "node_modules/prisma/prisma-client/README.md",
+    "node_modules/prisma/README.md",
+    "node_modules/token-types/README.md",
+    "node_modules/strtok3/README.md",
+    "Hackathon Wiki/stages/1-discovery/steps/4-process-map.md",
+    "Hackathon Wiki/stages/1-discovery/steps/6-kanban.md",
+    "Hackathon Wiki/stages/1-discovery/steps/5-mvp-scope.md",
+    "Hackathon Wiki/stages/1-discovery/steps/3-problem-statement.md",
+    "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
     "Hackathon Wiki/stages/1-discovery/steps/1-idea.md",
-    "doc/devin-chunks/00-INDEX.md.tmp.28888.f5c8bd58841c",
-    "doc/devin-chunks/18-ship-checklist-verification.md",
-    "doc/devin-chunks/17-screen-c-evaluation-wiring.md",
-    "doc/devin-chunks/16-ng-diagram-reasoning-trail.md",
-    "doc/devin-chunks/15-evaluation-table.md",
-    "doc/devin-chunks/14-screen-b-pipeline-wiring.md",
-    "doc/devin-chunks/14-screen-b-pipeline-wiring.md.tmp.28888.c3074d94987c",
-    "doc/devin-chunks/13-solution-card-and-stack.md",
-    "doc/devin-chunks/12-reformulation-cards.md",
-    "doc/devin-chunks/12-reformulation-cards.md.tmp.28888.dfd5183bc098",
-    "doc/devin-chunks/11-config-and-fake-data-layer.md",
-    "doc/devin-chunks/10-screen-a-problem-input.md",
-    "doc/devin-chunks/09-session-service-and-routing.md",
-    "doc/devin-chunks/08-shell-nav-components.md",
-    "doc/devin-chunks/08-shell-nav-components.md.tmp.28888.e545c145a045",
-    "doc/devin-chunks/07-button-component.md",
-    "doc/devin-chunks/06-form-field-atoms.md",
-    "doc/devin-chunks/05-icon-button-and-status-chip.md",
-    "doc/devin-chunks/05-icon-button-and-status-chip.md.tmp.28888.f9c82f42f9ab",
-    "doc/devin-chunks/04-card-anatomy-and-component.md",
-    "doc/devin-chunks/03-ng-diagram-setup.md",
-    "doc/devin-chunks/02-fonts-and-typography.md",
-    "doc/devin-chunks/01-design-tokens-and-contrast.md",
-    "doc/devin-chunks/00-INDEX.md",
-    "doc/devin-chunks",
-    "doc/01-discovery-user-story-map.md",
+    "Hackathon Wiki/stages/1-discovery/contest task.md",
     "doc/01-discovery-questions.md",
-    "apps/frontend/design-system/verification-report.md",
-    "apps/frontend/design-system/nx-boundaries-conditional.md"
+    "doc/01-discovery-user-story-map.md",
+    "doc/01-discovery-problem-statement-canvas.md",
+    "agent_doc/5-deployment/VALIDATION-REPORT.md",
+    "agent_doc/4-backend/VALIDATION-REPORT.md",
+    "apps/frontend/design-system/devin-task-breakdown.md",
+    "apps/frontend/design-system/frontend-remediation-plan.md",
+    "apps/frontend/design-system/frontend-architecture-audit.md",
+    "doc/wcs-baseline-report.md",
+    "doc/ng-diagram-api-notes.md",
+    "doc/accessibility-contrast-audit.md",
+    "doc/rd-card-anatomy.md"
   ]
 }
