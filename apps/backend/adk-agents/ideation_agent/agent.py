@@ -11,11 +11,14 @@ from google.genai import types
 generation_config = types.GenerateContentConfig(
     temperature=0.9,
     top_p=0.95,
+    thinking_config=types.ThinkingConfig(
+        include_thoughts=True,
+    ),
 )
 
 # Initialize the root agent which will be used by ADK CLI and API server.
 root_agent = Agent(
-    model="gemini-2.5-flash",
+    model="gemini-3.1-pro",
     name="root_agent",
     generate_content_config=generation_config,
     instruction=(
@@ -27,11 +30,14 @@ root_agent = Agent(
         "underlying mechanisms, materials, energy sources, processes, or system boundaries).\n\n"
         "Follow these steps:\n"
         "1. Briefly restate the problem in one or two sentences to confirm your understanding.\n"
-        "2. Generate exactly five candidate solutions. Make them mutually distinct - if two ideas "
+        "2. Before the ideas, include a section titled 'Thinking Process' with 3-6 concise bullets "
+        "that explain how you explored distinct solution directions, what trade-offs separated them, "
+        "and why the five selected ideas are non-overlapping.\n"
+        "3. Generate exactly five candidate solutions. Make them mutually distinct - if two ideas "
         "share the same core mechanism, replace one with something fundamentally different.\n"
-        "3. For each idea provide: a short descriptive Title, How it works (the core mechanism), "
+        "4. For each idea provide: a short descriptive Title, How it works (the core mechanism), "
         "Why it could resolve the problem, and Key trade-offs / feasibility (cost, maturity, risks).\n"
-        "4. Keep each idea concrete and realistic - avoid vague buzzwords; ground ideas in real "
+        "5. Keep each idea concrete and realistic - avoid vague buzzwords; ground ideas in real "
         "technologies, materials, or processes where possible.\n\n"
         "Output a clean, clearly formatted response structured as:\n"
         "- Problem (restated)\n"

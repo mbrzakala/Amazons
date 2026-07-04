@@ -31,6 +31,11 @@ export interface CandidateScore {
   risk: number;
 }
 
+interface VisibleReasoningSections {
+  thinkingProcess?: string;
+  finalSolution?: string;
+}
+
 // Minimal structural typings for the parts of the ADK event shape we consume.
 interface AdkPart {
   text?: string;
@@ -93,9 +98,16 @@ export class AdkAgentService {
         ? response.data
         : [];
 
+      const advice = this.extractAdvice(events, response.data);
+      const visibleSections = this.parseVisibleReasoningSections(advice);
+      const reasoningTrail = this.normalizeReasoningTrail(
+        this.buildReasoningTrail(events),
+        visibleSections
+      );
+
       return {
-        advice: this.extractAdvice(events, response.data),
-        reasoningTrail: this.buildReasoningTrail(events),
+        advice,
+        reasoningTrail,
         rawEvents: response.data,
       };
     } catch (error) {
@@ -172,6 +184,100 @@ export class AdkAgentService {
     }
 
     return trail;
+  }
+
+  // When a non-tool agent returns only visible text, recover a structured trail
+  // from explicit sections in the answer so the DB still stores process + solution.
+  private normalizeReasoningTrail(
+    trail: TrailStep[],
+    visibleSections: VisibleReasoningSections | null
+  ): TrailStep[] {
+    const hasStructuredSteps = trail.some(
+      (step) =>
+        step.type === 'thought' ||
+        step.type === 'tool_call' ||
+        step.type === 'tool_result'
+    );
+
+    if (hasStructuredSteps || !visibleSections) {
+      return trail;
+    }
+
+    const normalized: TrailStep[] = [];
+    let order = 0;
+
+    if (visibleSections.thinkingProcess) {
+      normalized.push({
+        order: order++,
+        type: 'thought',
+        author: 'root_agent',
+        text: visibleSections.thinkingProcess,
+      });
+    }
+
+    if (visibleSections.finalSolution) {
+      normalized.push({
+        order: order++,
+        type: 'message',
+        author: 'root_agent',
+        text: visibleSections.finalSolution,
+      });
+    }
+
+    return normalized.length > 0 ? normalized : trail;
+  }
+
+  private parseVisibleReasoningSections(
+    text: string
+  ): VisibleReasoningSections | null {
+    const normalizedText = text.replace(/\r\n/g, '\n');
+    const thinkingHeaderMatch = normalizedText.match(
+      /(?:^|\n)#{0,6}\s*Thinking Process\s*:?\s*\n/i
+    );
+    const solutionHeaderMatch = normalizedText.match(
+      /(?:^|\n)#{0,6}\s*(?:Final Solution|Solution)\s*:?\s*\n/i
+    );
+    const problemSectionMatch = normalizedText.match(/(?:^|\n)-\s*Problem\b/i);
+
+    let thinkingProcess: string | undefined;
+    let finalSolution: string | undefined;
+
+    if (thinkingHeaderMatch) {
+      const thinkingStart = thinkingHeaderMatch.index! + thinkingHeaderMatch[0].length;
+      const solutionStart = solutionHeaderMatch?.index;
+      const problemStart = problemSectionMatch?.index;
+      const thinkingEndCandidates = [solutionStart, problemStart].filter(
+        (index): index is number =>
+          typeof index === 'number' && index > thinkingStart
+      );
+      const thinkingEnd =
+        thinkingEndCandidates.length > 0
+          ? Math.min(...thinkingEndCandidates)
+          : normalizedText.length;
+
+      thinkingProcess = normalizedText.slice(thinkingStart, thinkingEnd).trim();
+
+      if (typeof solutionStart === 'number' && solutionStart > thinkingStart) {
+        finalSolution = normalizedText
+          .slice(solutionStart + solutionHeaderMatch![0].length)
+          .trim();
+      } else if (typeof problemStart === 'number' && problemStart > thinkingStart) {
+        finalSolution = normalizedText.slice(problemStart).trim();
+      }
+    } else if (solutionHeaderMatch) {
+      finalSolution = normalizedText
+        .slice(solutionHeaderMatch.index! + solutionHeaderMatch[0].length)
+        .trim();
+    }
+
+    if (!thinkingProcess && !finalSolution) {
+      return null;
+    }
+
+    return {
+      thinkingProcess,
+      finalSolution,
+    };
   }
 
   // Best-effort TRIZ metadata pulled from the browse_contradiction_matrix
