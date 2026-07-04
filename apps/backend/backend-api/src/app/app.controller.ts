@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Logger } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { SolveProblemDto } from './dto/solve-problem.dto';
@@ -7,6 +7,8 @@ import { RateSolutionDto } from './dto/rate-solution.dto';
 @ApiTags('problems')
 @Controller()
 export class AppController {
+  private readonly logger = new Logger(AppController.name);
+
   constructor(private readonly appService: AppService) {}
 
   // ==========================================
@@ -20,6 +22,11 @@ export class AppController {
       'problem with both generated solutions (advice + reasoning trail).',
   })
   solveProblem(@Body() dto: SolveProblemDto) {
+    // Transport-layer proof of delivery: log the validated payload as soon as
+    // it arrives, before any persistence/agent work happens below. If this
+    // line never appears in the server log, the request never reached NestJS
+    // (check CORS / proxy / global prefix before anything else).
+    this.logger.log(`Received problem payload: ${JSON.stringify(dto)}`);
     return this.appService.solveProblem(dto);
   }
 

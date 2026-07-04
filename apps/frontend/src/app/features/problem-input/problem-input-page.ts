@@ -95,7 +95,10 @@ export class ProblemInputPage {
           this.isSubmitting.set(false);
           this.router.navigate(['/pipeline']);
         },
-        error: () => {
+        error: (err) => {
+          // Surface the real transport error (CORS, network, validation, 500s)
+          // in the console so a failed delivery is diagnosable, not silent.
+          console.error('Problem payload submission failed:', err);
           this.isSubmitting.set(false);
           this.submitError.set('Failed to submit. Please try again.');
         },
