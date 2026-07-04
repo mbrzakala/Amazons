@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { Prisma } from '@prisma/client';
 import { AdkAgentService, AgentRunResult } from './adk-agent.service';
@@ -101,6 +101,10 @@ export class AppService {
   }
 
   async rateSolution(id: string, rating: number) {
+    const solution = await this.prisma.solution.findUnique({ where: { id } });
+    if (!solution) {
+      throw new NotFoundException(`Solution ${id} not found`);
+    }
     return this.prisma.solution.update({
       where: { id },
       data: { rating },
