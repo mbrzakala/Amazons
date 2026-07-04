@@ -6,13 +6,13 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   // ==========================================
-  // Conversational Solving & Contradictions
+  // Problem Solving — one problem, two methods
   // ==========================================
   @Post('solve')
-  solveContradiction(
+  solveProblem(
     @Body('problemDescription') problemDescription: string
   ) {
-    return this.appService.solveContradiction({
+    return this.appService.solveProblem({
       problemDescription,
     });
   }

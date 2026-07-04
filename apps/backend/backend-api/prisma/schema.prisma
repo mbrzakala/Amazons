@@ -1,4 +1,10 @@
-// This is your simplified, chat-centric Prisma schema for BuildWithAI
+// Chat-centric Prisma schema for BuildWithAI.
+//
+// A single user Problem is solved by MULTIPLE independent methods (currently
+// TRIZ + free-form Ideation), each producing its own Solution. Every Solution
+// carries the agent's final advice AND the full reasoning trail (the ADK event
+// trace: tool/MCP calls, their arguments and results, and model thoughts) so
+// the "thinking process" is persisted, not just the answer.
 
 generator client {
   provider = "prisma-client-js"
@@ -9,15 +15,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Contradiction {
-  id                  String   @id @default(uuid())
-  problemDescription  String   // User's chat input message
-  improvingParamId    Int?     // Optional - populated only if a TRIZ lookup occurred
-  preservingParamId   Int?     // Optional - populated only if a TRIZ lookup occurred
-  improvingParamName  String?  // Optional
-  preservingParamName String?  // Optional
-  principles          Json?    // Optional - parsed TRIZ principles list: { id, name, description }[]
-  advice              String   // AI Agent response text
-  rating              Int?     // Feedback rating (1-5 stars)
-  createdAt           DateTime @default(now())
+model Problem {
+  id          String     @id @default(uuid())
+  description String     // User's chat input message
+  createdAt   DateTime   @default(now())
+  solutions   Solution[]
+}
+
+model Solution {
+  id        String  @id @default(uuid())
+  problemId String
+  problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  method    String  // Resolution method that produced this proposition: 'triz' | 'ideation'
+  advice    String  // The agent's final formatted response text (the proposition)
+
+  // The "thinking process": normalized, ordered reasoning steps distilled from
+  // the ADK event stream. Each step: { order, type, author, text?, toolName?, args?, response? }
+  reasoningTrail Json?
+  // The untouched ADK events array, kept for full fidelity / debugging.
+  rawEvents      Json?
+
+  // TRIZ-specific structured metadata (null for non-TRIZ methods).
+  improvingParamId    Int?
+  preservingParamId   Int?
+  improvingParamName  String?
+  preservingParamName String?
+  principles          Json?   // Parsed TRIZ principles: { id, name, description }[]
+
+  rating    Int?     // Per-proposition feedback rating (1-5 stars)
+  createdAt DateTime @default(now())
+
+  @@index([problemId])
 }

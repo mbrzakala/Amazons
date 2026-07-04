@@ -6,10 +6,17 @@ from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnecti
 # Fetch the URL of the TRIZ MCP Server (defaults to localhost:8000 for local dev)
 mcp_url = os.environ.get("MCP_SERVER_URL", "http://localhost:8000/mcp")
 
-# Define the connection parameters for Streamable HTTP transport
+# Define the connection parameters for Streamable HTTP transport.
+# The TRIZ MCP server performs heavy lazy initialization (loading the TRIZ store
+# and warming the embedding model) on its first connection, which routinely takes
+# longer than ADK's default 5s connect timeout. Too short a timeout makes McpToolset
+# fail to load the tools, silently degrading the agent to a toolless LLM answer with
+# no reasoning trail. Raise the connect timeout to comfortably cover cold start.
+# (Note: `use_mtls` is not a field on StreamableHTTPConnectionParams and was being
+# silently ignored; mTLS is already skipped gracefully when no ADC is present.)
 connection_params = StreamableHTTPConnectionParams(
     url=mcp_url,
-    use_mtls=False,
+    timeout=30.0,
 )
 
 # Initialize the root agent which will be used by ADK CLI and API server
