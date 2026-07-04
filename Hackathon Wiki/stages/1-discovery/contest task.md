@@ -2,7 +2,9 @@
 
 #### Problem 6: Improving desalination (SDG 6 / 7)
 
-Desalination, which is turning seawater into drinking water, is one of the most promising responses to global water scarcity, particularly in regions with limited freshwater sources. Producing freshwater this way requires significant energy input, and the equipment involved experiences wear from the pressures and temperatures used in the process. Many of the regions most in need of desalinated water also face limited or expensive energy access. Your task: propose a way to substantially increase freshwater output from desalination without a proportional increase in energy demand or equipment strain. The ultimate question is, how to drink undrinkable water from the ultimate source of water on Earth 🌊?
+Desalination, which is turning seawater into drinking water, is one of the most promising responses to global water scarcity, particularly in regions with limited freshwater sources. Producing freshwater this way requires significant energy input, and the equipment involved experiences wear from the pressures and temperatures used in the process. Many of the regions most in need of desalinated water also face limited or expensive energy access. 
+
+Your task: propose a way to substantially increase freshwater output from desalination without a proportional increase in energy demand or equipment strain. The ultimate question is, how to drink undrinkable water from the ultimate source of water on Earth 🌊?
 
 **
 

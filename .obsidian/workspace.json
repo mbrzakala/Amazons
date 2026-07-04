@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Hackathon Wiki/stages/1-discovery/contest task.md",
+                "file": "Hackathon Wiki/presentation 5 minutes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "contest task"
+              "title": "presentation 5 minutes"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Hackathon Wiki/stages/1-discovery/contest task.md",
+                "file": "Hackathon Wiki/presentation 5 minutes.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Linki zwrotne do contest task"
+              "title": "Linki zwrotne do presentation 5 minutes"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Hackathon Wiki/stages/1-discovery/contest task.md",
+                "file": "Hackathon Wiki/presentation 5 minutes.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Łącza wychodzące od contest task"
+              "title": "Łącza wychodzące od presentation 5 minutes"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Hackathon Wiki/stages/1-discovery/contest task.md",
+                "file": "Hackathon Wiki/presentation 5 minutes.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Konspekt contest task"
+              "title": "Konspekt presentation 5 minutes"
             }
           }
         ]
@@ -185,17 +185,21 @@
   },
   "active": "475ee9a6788f6ed0",
   "lastOpenFiles": [
-    "node_modules/@nestjs/common/package.json",
-    "node_modules/iterare/lib/zip.test.d.ts.map",
-    "node_modules/iterare/lib/zip.js",
-    "node_modules/iterare/lib/zip.test.js.map",
-    "node_modules/iterare/lib/zip.test.d.ts",
-    "node_modules/iterare/lib/zip.js.map",
-    "node_modules/iterare/lib/utils.js.map",
-    "node_modules/iterare/lib/zip.d.ts.map",
-    "node_modules/iterare/lib/zip.d.ts",
-    "node_modules/iterare/lib/utils.d.ts",
-    "node_modules/iterare/lib/utils.test.js.map",
+    "doc/01-discovery-loom-final-flow.md",
+    "apps/backend/adk-agents/reframing_agent/agent.py",
+    "apps/backend/adk-agents/reframing_agent/__init__.py",
+    "apps/backend/adk-agents/reframing_agent",
+    "apps/backend/backend-api/src/app/candidate-parser.spec.ts",
+    "apps/backend/backend-api/src/app/candidate-parser.ts",
+    "apps/frontend/src/app/core/response-mapper.util.ts",
+    "apps/frontend/src/app/models/api-response.model.ts",
+    "apps/backend/backend-api/src/app/scoring.util.ts",
+    "apps/backend/adk-agents/evaluation_agent/agent.py",
+    "apps/backend/adk-agents/evaluation_agent/__init__.py",
+    "Hackathon Wiki/stages/1-discovery/contest task.md",
+    "Hackathon Wiki/presentation 5 minutes.md",
+    "Hackathon Wiki/5-min-pitch-script.md",
+    "node_modules/effect/README.md",
     "node_modules/iterare/README.md",
     "apps/frontend/design-system/design-system-presentation.md",
     "apps/frontend/design-system/design-cohesion-narrative.md",
@@ -220,16 +224,12 @@
     "Hackathon Wiki/stages/1-discovery/steps/3-problem-statement.md",
     "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
     "Hackathon Wiki/stages/1-discovery/steps/1-idea.md",
-    "Hackathon Wiki/stages/1-discovery/contest task.md",
     "doc/01-discovery-questions.md",
     "doc/01-discovery-user-story-map.md",
     "doc/01-discovery-problem-statement-canvas.md",
     "agent_doc/5-deployment/VALIDATION-REPORT.md",
     "agent_doc/4-backend/VALIDATION-REPORT.md",
     "apps/frontend/design-system/devin-task-breakdown.md",
-    "apps/frontend/design-system/frontend-remediation-plan.md",
-    "apps/frontend/design-system/frontend-architecture-audit.md",
-    "doc/wcs-baseline-report.md",
-    "doc/ng-diagram-api-notes.md"
+    "apps/frontend/design-system/frontend-remediation-plan.md"
   ]
 }
