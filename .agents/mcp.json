@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "amazons-remote": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-client-cli",
+        "https://amazons-mcp-server-123751472535.europe-west1.run.app/mcp"
+      ]
+    }
+  }
+}
