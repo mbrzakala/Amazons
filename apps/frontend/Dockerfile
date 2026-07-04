@@ -20,6 +20,7 @@ COPY apps/frontend/nginx.conf /etc/nginx/templates/default.conf.template
 # Copy compiled static assets from builder
 COPY --from=builder /usr/src/app/dist/apps/frontend/browser /usr/share/nginx/html
 
-EXPOSE 80
+ENV PORT=8080
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]
