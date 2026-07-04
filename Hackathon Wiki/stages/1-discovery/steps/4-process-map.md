@@ -66,3 +66,31 @@ flag anything that's really a command, a UI action, or CRUD instead of an event.
 Next: [[5-mvp-scope]].
 
 ## Result
+*(AI first-draft, simplest happy-path pass only — team still owes a quick silent
+check against it before this can be marked done; see note below)*
+
+Two actors used: **R&D Researcher** (human) and **System** (the product, for
+automated/computed steps).
+
+1. Inventive problem submitted — R&D Researcher
+2. Problem reformulated as technical contradiction — System
+3. TRIZ-based candidate solutions generated — System
+4. Second-method candidate solutions generated — System
+5. All candidates evaluated against the original problem — System
+6. Best candidate solution selected — System
+7. Recommended solution and reasoning trail delivered to researcher — System
+
+**Hotspots:**
+- Second concept-generation method (alongside TRIZ) not yet chosen — source notes only
+  say "e.g. 5 Whys," undecided.
+- Evaluation/scoring criteria for comparing candidates against the original problem is
+  not yet defined.
+
+**Gate item 7 (silent round) — not yet satisfiable by AI:** this list was drafted by AI
+from tasks 1–3, not built on the FigJam board. Before locking, the team should spend ~2
+quiet minutes independently checking/editing this list (or writing their own first) so
+the exercise isn't anchored on the AI draft, then self-report yes/no on the gate.
+
+Next build-on steps (deliberately deferred, not done in this pass): pivotal
+events/zoning into bounded contexts, commands, and error branches — add these once the
+happy path above is confirmed.

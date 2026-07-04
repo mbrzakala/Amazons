@@ -27,4 +27,4 @@ proposes, it never decides this (see [[START]] → Rules for AI).
 Next: [[3-problem-statement]].
 
 ## Result
-Researcher has 
+Researcher from R & D department is aware of the opportunity to combine TRIZZ and AI to facilitate research. They have no tool to use AI in order to harness that opportunity. If they could have a tool where they could input their problem, and get professional, AI-powered solution space feedback information, it'd greatly facilitate their research.   
