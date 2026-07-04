@@ -168,6 +168,10 @@ deploy-mcp:
 		--set-env-vars=MCP_HOST=0.0.0.0,MCP_PORT=8080,EMBEDDING_SERVICE_URL=$(EMBEDDINGS_URL)/v1,EMBEDDING_MODEL=embeddinggemma:300m,EMBEDDING_API_KEY=ollama
 
 # Deploy Google ADK Agent (connected to MCP Server)
+# GOOGLE_API_USE_CLIENT_CERTIFICATE=false makes the TRIZ agent's MCP toolset skip
+# the ADC/mTLS client-certificate handshake against the plain-HTTP MCP server;
+# without it, TRIZ tools can silently fail to load, degrading to a toolless
+# answer with no reasoning trail.
 deploy-agent:
 	@echo "Fetching private MCP Server URL..."
 	$(eval MCP_URL := $(shell gcloud run services describe amazons-mcp-server --region=$(REGION) --format='value(status.url)'))
@@ -179,7 +183,7 @@ deploy-agent:
 		--allow-unauthenticated \
 		--memory=2Gi \
 		--min-instances=1 \
-		--set-env-vars=MCP_SERVER_URL=$(MCP_URL)/mcp,GOOGLE_GENAI_USE_VERTEXAI=1,GOOGLE_CLOUD_PROJECT=$(GCP_PROJECT),GCP_PROJECT=$(GCP_PROJECT)
+		--set-env-vars=MCP_SERVER_URL=$(MCP_URL)/mcp,GOOGLE_GENAI_USE_VERTEXAI=1,GOOGLE_CLOUD_PROJECT=$(GCP_PROJECT),GCP_PROJECT=$(GCP_PROJECT),GOOGLE_API_USE_CLIENT_CERTIFICATE=false
 
 # Deploy NestJS Backend (connected to ADK Agent + Cloud SQL)
 deploy-backend:
