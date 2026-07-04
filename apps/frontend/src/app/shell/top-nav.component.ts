@@ -26,9 +26,6 @@ import { IconButtonComponent } from '../shared/ui/icon-button.component';
             role="tab"
             >History</a
           >
-          <a routerLink="/" class="tab disabled" role="tab" aria-disabled="true" tabindex="-1"
-            >Insights</a
-          >
         </div>
       </div>
       <div class="topnav-right">

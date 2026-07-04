@@ -30,14 +30,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           <span class="material-symbols-outlined" aria-hidden="true">history</span>
           <span class="text-label-mono">History</span>
         </a>
-        <a routerLink="/" class="nav-item disabled" aria-disabled="true" tabindex="-1">
-          <span class="material-symbols-outlined" aria-hidden="true">psychology</span>
-          <span class="text-label-mono">Methods</span>
-        </a>
-        <a routerLink="/" class="nav-item disabled" aria-disabled="true" tabindex="-1">
-          <span class="material-symbols-outlined" aria-hidden="true">biotech</span>
-          <span class="text-label-mono">Lab Tools</span>
-        </a>
       </nav>
 
       <div class="sidebar-footer">
@@ -77,7 +69,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     }
     .subtitle {
       color: var(--color-on-surface-variant);
-      opacity: 0.7;
     }
 
     .sidebar-nav {

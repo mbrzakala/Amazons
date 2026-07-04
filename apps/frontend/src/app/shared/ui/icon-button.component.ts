@@ -7,6 +7,7 @@ import { Component, ChangeDetectionStrategy, input, output } from '@angular/core
     <button
       type="button"
       class="icon-btn"
+      [disabled]="disabled()"
       [attr.aria-label]="ariaLabel()"
       (click)="click.emit($event)"
     >
