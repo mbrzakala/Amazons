@@ -12,7 +12,7 @@ import { StatusChipComponent } from '../../shared/ui/status-chip.component';
         <div class="placeholder-label text-label-mono">Generating Solution {{ index() + 1 }}...</div>
       </div>
     } @else {
-      <div class="card" [class.running]="solution().status === 'running'">
+      <div class="card card-surface" [class.running]="solution().status === 'running'">
         <div class="header">
           <h4 class="title text-title-sm" [class.italic]="solution().status === 'running'">{{ solution().title }}</h4>
           <app-status-chip [status]="solution().status" />
@@ -33,7 +33,6 @@ import { StatusChipComponent } from '../../shared/ui/status-chip.component';
   `,
   styles: [`
     .card {
-      border: var(--border-1);
       padding: var(--space-md);
       transition: border 0.2s;
     }

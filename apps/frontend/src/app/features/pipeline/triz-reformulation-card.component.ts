@@ -7,7 +7,7 @@ import { StatusChipComponent } from '../../shared/ui/status-chip.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [StatusChipComponent],
   template: `
-    <div class="reform-card">
+    <div class="reform-card card-surface">
       <div class="card-header">
         <span class="text-label-caps card-title">TRIZ Reformulation</span>
         <app-status-chip [status]="status()" />
@@ -29,8 +29,6 @@ import { StatusChipComponent } from '../../shared/ui/status-chip.component';
   styles: [`
     .reform-card {
       padding: var(--space-lg);
-      background: var(--color-surface-container-lowest);
-      border: var(--border-1);
       display: flex;
       flex-direction: column;
       gap: var(--space-md);

@@ -14,7 +14,7 @@ interface TrailNodeData {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
-      class="trail-node"
+      class="trail-node card-surface"
       [class.root]="data().nodeType === 'root'"
       [class.reformulation]="data().nodeType === 'reformulation'"
       [class.candidate]="data().nodeType === 'candidate'"
@@ -39,7 +39,6 @@ interface TrailNodeData {
       padding: var(--space-sm);
       text-align: center;
       border-radius: var(--radius-lg);
-      background: var(--color-surface-container-lowest);
     }
     .trail-node.root {
       border: 1px solid var(--color-primary);

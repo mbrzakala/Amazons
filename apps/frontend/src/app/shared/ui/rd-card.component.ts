@@ -4,7 +4,7 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
   selector: 'app-rd-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="card" [class.active]="active()" [class.interactive]="interactive()">
+    <div class="card card-surface" [class.active]="active()">
       <ng-content select="[card-header]" />
       <div class="body">
         <ng-content />
@@ -13,19 +13,10 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
   `,
   styles: [`
     .card {
-      border: var(--border-1);
       border-radius: var(--radius-default);
-      background: var(--color-surface-container-lowest);
     }
     .card.active {
       border: var(--border-2-primary);
-    }
-    .card.interactive {
-      cursor: pointer;
-      transition: border-color 0.15s ease;
-    }
-    .card.interactive:hover {
-      border-color: var(--color-primary);
     }
     ::ng-deep [card-header] {
       padding: var(--space-md) var(--space-lg);
@@ -42,5 +33,4 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 })
 export class RdCardComponent {
   readonly active = input<boolean>(false);
-  readonly interactive = input<boolean>(false);
 }

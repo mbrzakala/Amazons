@@ -5,9 +5,9 @@ import { HatAnalysis } from '../../models/problem.model';
   selector: 'app-six-hats-grid',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="hats-grid">
+    <div class="hats-grid card-surface">
       @for (hat of hats(); track hat.hatName) {
-        <div class="hat-card" [class.active]="hat.active">
+        <div class="hat-card card-surface" [class.active]="hat.active">
           <div class="hat-header">
             <div class="hat-swatch" [style.background]="hat.color" aria-hidden="true"></div>
             <span class="text-label-caps hat-name">{{ hat.hatName }}</span>
@@ -23,12 +23,9 @@ import { HatAnalysis } from '../../models/problem.model';
       grid-template-columns: 1fr 1fr;
       gap: var(--space-md);
       padding: var(--space-lg);
-      background: var(--color-surface-container-lowest);
-      border: var(--border-1);
     }
     .hat-card {
       padding: var(--space-sm);
-      border: var(--border-1);
     }
     .hat-card.active {
       border: var(--border-2-primary);
@@ -53,6 +50,12 @@ import { HatAnalysis } from '../../models/problem.model';
     }
     .hat-card.active .hat-note {
       font-weight: 700;
+    }
+
+    @media (max-width: 767px) {
+      .hats-grid {
+        grid-template-columns: 1fr;
+      }
     }
   `],
 })

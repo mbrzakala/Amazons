@@ -16,13 +16,13 @@ app-rd-card
 
 | Input | Type | Default | Description |
 |---|---|---|---|
-| `title` | `string` | `''` | Optional header title. When empty, the entire header section is omitted. |
-| `subtitle` | `string` | `''` | Optional header subtitle rendered in `text-label-mono` to the right of the title. |
 | `active` | `boolean` | `false` | When true, switches the border from 1px outline-variant to 2px solid primary. |
 
 ## Content Projection
 
-Single `<ng-content />` slot in the body region. No named slots.
+Two `<ng-content>` slots:
+- `[card-header]` — optional header slot, rendered above the body with a bottom border
+- Default `<ng-content />` — body content, padded with `--space-lg`
 
 ## Parts
 
@@ -46,14 +46,14 @@ Single `<ng-content />` slot in the body region. No named slots.
 
 | Part | Token | Value |
 |---|---|---|
-| Background | `--color-surface-container-lowest` | `#ffffff` |
-| Border (default) | `--border-1` | `1px solid #c6c6cd` |
+| Background | `--color-surface-container-lowest` | `#ffffff` (via `.card-surface` global class) |
+| Border (default) | `--border-1` | `1px solid #c6c6cd` (via `.card-surface` global class) |
 | Border (active) | `--border-2-primary` | `2px solid #111827` |
-| Radius | `--radius-default` (implicit, not yet applied — see Gaps) | `0.25rem` |
+| Radius | `--radius-default` | `0.25rem` |
 
 ### 2. Header
 
-Only rendered when `title()` is truthy.
+Only rendered when content is projected into the `[card-header]` slot.
 
 | Part | Token | Value |
 |---|---|---|
@@ -62,9 +62,7 @@ Only rendered when `title()` is truthy.
 | Layout | flex, space-between, center | — |
 | Gap | `--space-md` | `16px` |
 
-**Title**: `<h4>` with class `text-title-sm` (Geist 18/24, 500) overridden to `font-weight: 700`. Color: inherited `--color-on-surface`.
-
-**Subtitle**: `<span>` with class `text-label-mono` (JetBrains Mono 13/16, 500, 0.05em tracking) overridden to `font-size: 10px; text-transform: uppercase`. Color: `--color-on-surface-variant` (#45464c, 8.93:1 on white — AA pass).
+Header content is fully consumer-driven via `<ng-content select="[card-header]" />`. The component applies layout and border styling; the consumer provides the heading element and any accompanying elements.
 
 ### 3. Body
 
@@ -110,24 +108,22 @@ This is an extension pattern, not a base feature.
 All tokens consumed by this component:
 
 ```
---color-surface-container-lowest   card background
---color-outline-variant            default border, header bottom border
+--color-surface-container-lowest   card background (via .card-surface)
+--color-outline-variant            default border (via .card-surface)
 --color-primary                    active border
---color-on-surface                 title text (inherited)
---color-on-surface-variant         subtitle text
 --space-md                         header vertical padding, header gap
 --space-lg                         header horizontal padding, body padding
---text-title-sm                    title typography
---text-label-mono                  subtitle typography
---text-label-mono-tracking         subtitle letter-spacing
+--radius-default                   card corner radius
 ```
 
 No hardcoded hex or px values. All values reference CSS custom properties from `styles.scss`.
 
+The `.card-surface` global utility class (defined in `styles.scss`) provides the shared `border` and `background` ruleset, ensuring single-source-of-truth for all card-like containers across the app.
+
 ## Accessibility
 
-- **Heading hierarchy**: Title is `<h4>`. Must be placed in a context where `<h1>` (page heading) and `<h2>`/`<h3>` (section headings) exist above it. On Screen A, the card sits below `<h1>` — correct. On Screen B, reformulation cards sit below `<h2>` method headers — correct.
-- **Contrast**: Title (on-surface on white) = 17.22:1. Subtitle (on-surface-variant on white) = 9.41:1. Both pass AA and AAA.
+- **Heading hierarchy**: The card does not render its own heading. Consumers project headings via the `[card-header]` slot. Must be placed in a context where `<h1>` (page heading) and `<h2>`/`<h3>` (section headings) exist above any projected `<h4>`.
+- **Contrast**: Background and border tokens pass WCAG AA for non-text UI component boundaries. Active border (2px solid #111827) at 16.33:1 exceeds 3:1 threshold.
 - **Keyboard**: Card itself is not focusable (it's a container, not interactive). Interactive elements projected into the body must provide their own focus indicators.
 - **Screen reader**: Header + body structure is semantic. No ARIA attributes needed on the card itself.
 
@@ -137,11 +133,11 @@ The R&D Card pattern is extended by:
 
 | Component | File | Differences |
 |---|---|---|
-| Solution Card | `features/pipeline/solution-card.component.ts` | Adds status chip, hover state, progress bar (running), provenance footer, 2-line description clamp. Padding is `--space-md` (16px) instead of `--space-lg`. |
-| Reformulation Card | Inline in `method-column.component.ts` | Uses the card visual pattern but is not `app-rd-card` — it's a `<div class="reform-card">` with the same border/background tokens but custom field layout. |
-| Hat Card | Inline in `method-column.component.ts` | Mini-card variant: smaller padding, colored swatch indicator, active state with 2px primary border. |
+| Solution Card | `features/pipeline/solution-card.component.ts` | Adds status chip, hover state, progress bar (running), provenance footer, 2-line description clamp. Padding is `--space-md` (16px) instead of `--space-lg`. Uses `.card-surface` class. |
+| Reformulation Card | `features/pipeline/triz-reformulation-card.component.ts` | Uses `.card-surface` class with custom field layout for TRIZ parameters. |
+| Hat Card | `features/pipeline/six-hats-grid.component.ts` | Mini-card variant: smaller padding, colored swatch indicator, active state with 2px primary border. Uses `.card-surface` class. |
+| Trail Node | `features/evaluation-trail/reasoning-trail/trail-node-template.ts` | Rounded-rect node container with per-variant borders. Uses `.card-surface` class for background. |
 
 ## Gaps
 
-1. **Radius not applied**: The spec calls for `--radius-default` (0.25rem) on standard containers. The current `app-rd-card` does not set `border-radius`. This should be added to the `.card` class.
-2. **No explicit role**: The card could benefit from `role="group"` with an `aria-label` derived from the title, but this is a minor enhancement.
+1. **No explicit role**: The card could benefit from `role="group"` with an `aria-label` derived from projected header content, but this is a minor enhancement.

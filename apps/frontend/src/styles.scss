@@ -262,6 +262,16 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────────────
+   Card surface — shared base ruleset for all card-like containers
+   Single source of truth for border + background. Component-specific
+   padding, hover, active states remain in component styles.
+   ───────────────────────────────────────────────────────────── */
+.card-surface {
+  border: var(--border-1);
+  background: var(--color-surface-container-lowest);
+}
+
+/* ─────────────────────────────────────────────────────────────
    Trail selection highlight
    ───────────────────────────────────────────────────────────── */
 .trail-selected {
