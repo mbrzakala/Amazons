@@ -1,7 +1,7 @@
 export interface ProblemInput {
   definition: string;
-  systemRequirement: string;
-  physicalLimit: string;
+  improvingParameter: string;
+  worseningParameter: string;
 }
 
 export interface HatAnalysis {

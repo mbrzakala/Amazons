@@ -25,8 +25,8 @@ export class ProblemInputPage {
   ];
 
   readonly definition = signal('');
-  readonly systemRequirement = signal('');
-  readonly physicalLimit = signal('');
+  readonly improvingParameter = signal('');
+  readonly worseningParameter = signal('');
   readonly errorMessage = signal('');
 
   readonly isValid = computed(() => this.definition().trim().length > 0);
@@ -36,24 +36,24 @@ export class ProblemInputPage {
     if (this.errorMessage()) this.errorMessage.set('');
   }
 
-  onSystemRequirementChange(value: string): void {
-    this.systemRequirement.set(value);
+  onImprovingParameterChange(value: string): void {
+    this.improvingParameter.set(value);
   }
 
-  onPhysicalLimitChange(value: string): void {
-    this.physicalLimit.set(value);
+  onWorseningParameterChange(value: string): void {
+    this.worseningParameter.set(value);
   }
 
   onSubmit(): void {
     if (!this.isValid()) {
-      this.errorMessage.set('Problem definition is required before solving.');
+      this.errorMessage.set('Describe the inventive problem before starting.');
       return;
     }
     this.errorMessage.set('');
     this.session.submitProblem({
       definition: this.definition().trim(),
-      systemRequirement: this.systemRequirement().trim(),
-      physicalLimit: this.physicalLimit().trim(),
+      improvingParameter: this.improvingParameter().trim(),
+      worseningParameter: this.worseningParameter().trim(),
     });
     this.router.navigate(['/pipeline']);
   }

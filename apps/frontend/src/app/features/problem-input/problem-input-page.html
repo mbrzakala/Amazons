@@ -5,8 +5,8 @@
 
     <!-- Heading Section -->
     <div class="heading-section">
-      <h1 class="text-headline-lg heading">Identify a Contradiction</h1>
-      <p class="text-body-md subcopy">Describe the inventive problem you are facing in technical detail.</p>
+      <h1 class="text-headline-lg heading">Describe Your Inventive Problem</h1>
+      <p class="text-body-md subcopy">Tell us what should improve and what gets worse when you push it. We'll reformulate it as a technical contradiction and generate solutions from two methods.</p>
     </div>
 
     <!-- Problem Input Card -->
@@ -14,8 +14,8 @@
       <div class="card-body">
         <!-- Definition Textarea -->
         <app-labeled-textarea
-          label="INPUT_DEFINITION"
-          placeholder="I need X to improve, but Y degrades when I push it..."
+          label="Describe the inventive problem"
+          placeholder="e.g. We need to increase freshwater output from desalination, but energy demand and equipment wear rise proportionally when we push the throughput."
           [rows]="8"
           [value]="definition()"
           [errorMessage]="errorMessage()"
@@ -25,31 +25,34 @@
         <!-- Secondary Context Grid -->
         <div class="context-grid">
           <app-labeled-input
-            label="SYSTEM_REQUIREMENT"
-            placeholder="e.g. Minimal Weight"
-            [value]="systemRequirement()"
-            (valueChange)="onSystemRequirementChange($event)"
+            label="What should improve"
+            placeholder="e.g. Freshwater output volume"
+            [value]="improvingParameter()"
+            (valueChange)="onImprovingParameterChange($event)"
           />
           <app-labeled-input
-            label="PHYSICAL_LIMIT"
-            placeholder="e.g. Structural Integrity"
-            [value]="physicalLimit()"
-            (valueChange)="onPhysicalLimitChange($event)"
+            label="What degrades as a result"
+            placeholder="e.g. Energy consumption and equipment wear"
+            [value]="worseningParameter()"
+            (valueChange)="onWorseningParameterChange($event)"
           />
         </div>
+
+        <!-- Optional fields helper text -->
+        <p class="text-label-mono helper-text">Optional — if left blank, the system will extract these from your problem description.</p>
 
         <!-- Action Row -->
         <div class="action-row">
           <div class="hint">
             <span class="material-symbols-outlined hint-icon" aria-hidden="true">info</span>
-            <span class="text-label-mono hint-text">Format: [System Component] must [Desired Action] while [Constraint] is maintained.</span>
+            <span class="text-label-mono hint-text">Format: [What should improve] must get better without worsening [What degrades as a result].</span>
           </div>
           <app-button
             variant="primary"
             [disabled]="!isValid()"
             (buttonClick)="onSubmit()"
           >
-            <span class="text-label-caps">SOLVE PROBLEM</span>
+            <span class="text-label-caps">START REASONING</span>
             <span trailing-icon class="material-symbols-outlined arrow" aria-hidden="true">arrow_forward</span>
           </app-button>
         </div>

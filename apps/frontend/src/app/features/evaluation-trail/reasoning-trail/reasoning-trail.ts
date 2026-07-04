@@ -216,10 +216,10 @@ export class ReasoningTrailComponent implements OnInit {
 
   private getNodeLabel(node: TrailNode): string {
     const labels: Record<TrailNode['type'], string> = {
-      root: 'INITIAL STATE',
+      root: 'PROBLEM',
       reformulation: 'REFORMULATION',
       candidate: 'CANDIDATE',
-      final: 'FINAL RECOMMENDATION',
+      final: 'RECOMMENDED SOLUTION',
     };
     if (node.type === 'reformulation') {
       const letter = node.id.split('-')[1]?.toUpperCase() ?? '';
