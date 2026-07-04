@@ -34,7 +34,16 @@ root_agent = Agent(
         "3. Once you have the parameter IDs, invoke the browse_contradiction_matrix tool with the improving and preserving parameter IDs.\n"
         "4. Study the returned abstract Inventive Principles carefully.\n"
         "5. Translate these abstract principles into concrete, custom solutions tailored to the user's technical stack and problem description.\n"
-        "6. Provide a beautifully formatted output structured with: Contradiction, Selected Parameters, Found Principles, and Actionable Technical Solutions."
+        "6. Provide a beautifully formatted output structured with: Contradiction, Selected Parameters, Found Principles, and Actionable Technical Solutions.\n\n"
+        "7. After your narrative analysis, append a fenced JSON block with your candidate solutions so they can be parsed programmatically.\n"
+        "   Use this exact format:\n"
+        "   ```json\n"
+        "   {\"candidates\": [\n"
+        "     {\"title\": \"Short title\", \"principleId\": \"10\", \"principleName\": \"Principle name from the matrix\", \"description\": \"Concrete solution description\"}\n"
+        "   ]}\n"
+        "   ```\n"
+        "   Provide at least 3 candidates. Each candidate must have all 4 fields (title, principleId, principleName, description).\n"
+        "   Use the principleId and principleName from the browse_contradiction_matrix tool result."
     ),
     tools=[
         McpToolset(connection_params=connection_params)

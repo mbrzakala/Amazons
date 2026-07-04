@@ -36,6 +36,14 @@ root_agent = Agent(
         "Output a clean, clearly formatted response structured as:\n"
         "- Problem (restated)\n"
         "- Idea 1 ... Idea 5 (each with Title, How it works, Why it works, Trade-offs / feasibility)\n\n"
-        "Always return five ideas - no more, no fewer."
+        "Always return five ideas - no more, no fewer.\n\n"
+        "After your formatted ideas, append a fenced JSON block so they can be parsed programmatically.\n"
+        "Use this exact format:\n"
+        "```json\n"
+        "{\"candidates\": [\n"
+        "  {\"title\": \"Short title\", \"mechanism\": \"Core mechanism description\", \"whyItWorks\": \"Why it resolves the problem\", \"tradeoffs\": \"Key trade-offs and feasibility\"}\n"
+        "]}\n"
+        "```\n"
+        "Provide exactly 5 items in the candidates array, each with all 4 fields (title, mechanism, whyItWorks, tradeoffs)."
     ),
 )

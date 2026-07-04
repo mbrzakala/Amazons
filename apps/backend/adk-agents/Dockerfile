@@ -15,6 +15,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 COPY pyproject.toml uv.lock ./
 COPY triz_agent/ /app/triz_agent/
 COPY ideation_agent/ /app/ideation_agent/
+COPY evaluation_agent/ /app/evaluation_agent/
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked
