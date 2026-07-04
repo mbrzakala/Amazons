@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+.main {
+  margin-left: var(--sidebar-width);
+  margin-top: var(--topnav-height);
+  min-height: calc(100vh - var(--topnav-height));
+}

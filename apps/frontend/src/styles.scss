@@ -1,1 +1,246 @@
-/* You can add global styles to this file, and also import other style files */
+/* ng-diagram — global stylesheet import (validator: must be global, not component-level) */
+@import 'ng-diagram/styles.css';
+
+/* ─────────────────────────────────────────────────────────────
+   Design Tokens — single source of truth
+   All custom properties live here and nowhere else.
+   No component may redeclare token values or hardcode hex/px.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Color — grayscale + one accent ── */
+  --color-surface: #f8f9fa;
+  --color-surface-dim: #d9dadb;
+  --color-surface-bright: #f8f9fa;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f4f5;
+  --color-surface-container: #edeeef;
+  --color-surface-container-high: #e7e8e9;
+  --color-surface-container-highest: #e1e3e4;
+  --color-on-surface: #191c1d;
+  --color-on-surface-variant: #45464c;
+  --color-on-background: #191c1d;
+  --color-inverse-surface: #2e3132;
+  --color-inverse-on-surface: #f0f1f2;
+  --color-outline: #76777d;
+  --color-outline-variant: #c6c6cd;
+
+  /* Primary — #111827 for authored UI (brand-copy value).
+     Token registry cites #000000; #111827 is the solid-black swatch
+     used for all rendered UI. */
+  --color-primary: #111827;
+  --color-on-primary: #ffffff;
+  --color-primary-fixed: #dce2f7;
+  --color-primary-fixed-dim: #c0c6db;
+
+  /* Accent — muted blue, reserved exclusively for
+     "Recommended" pathway and "Running" status */
+  --color-accent: #2563eb;
+
+  /* Error */
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+
+  /* Secondary (used sparingly) */
+  --color-secondary: #585f6c;
+  --color-secondary-container: #dce2f3;
+
+  /* ── Typography ── */
+  --font-geist: 'Geist', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --text-headline-lg: 600 30px/36px var(--font-geist);
+  --text-headline-lg-tracking: -0.02em;
+  --text-headline-md: 600 24px/32px var(--font-geist);
+  --text-title-sm: 500 18px/24px var(--font-geist);
+  --text-body-md: 400 16px/24px var(--font-geist);
+  --text-label-mono: 500 13px/16px var(--font-mono);
+  --text-label-mono-tracking: 0.05em;
+  --text-label-caps: 700 11px/14px var(--font-mono);
+  --text-label-caps-tracking: 0.1em;
+
+  /* ── Spacing — 4px base unit ── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 48px;
+  --space-gutter: 16px;
+  --space-margin-page: 32px;
+
+  /* ── Radii ── */
+  --radius-sm: 0.125rem;
+  --radius-default: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* ── Layout ── */
+  --topnav-height: 64px;
+  --sidebar-width: 260px;
+
+  /* ── Borders ── */
+  --border-1: 1px solid var(--color-outline-variant);
+  --border-1-outline: 1px solid var(--color-outline);
+  --border-2-primary: 2px solid var(--color-primary);
+  --border-2-accent: 2px solid var(--color-accent);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Global resets
+   ───────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+  font: var(--text-body-md);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Typography utility classes
+   ───────────────────────────────────────────────────────────── */
+.text-headline-lg {
+  font: var(--text-headline-lg);
+  letter-spacing: var(--text-headline-lg-tracking);
+}
+
+.text-headline-md {
+  font: var(--text-headline-md);
+}
+
+.text-title-sm {
+  font: var(--text-title-sm);
+}
+
+.text-body-md {
+  font: var(--text-body-md);
+}
+
+.text-label-mono {
+  font: var(--text-label-mono);
+  letter-spacing: var(--text-label-mono-tracking);
+}
+
+.text-label-caps {
+  font: var(--text-label-caps);
+  letter-spacing: var(--text-label-caps-tracking);
+  text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Skeletal X-box placeholder — two diagonal 1px lines
+   ───────────────────────────────────────────────────────────── */
+.skeletal-x {
+  background-image:
+    linear-gradient(
+      to top right,
+      transparent calc(50% - 0.5px),
+      var(--color-outline-variant) 50%,
+      transparent calc(50% + 0.5px)
+    ),
+    linear-gradient(
+      to top left,
+      transparent calc(50% - 0.5px),
+      var(--color-outline-variant) 50%,
+      transparent calc(50% + 0.5px)
+    );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Material Symbols baseline
+   ───────────────────────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 20px;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Animations
+   ───────────────────────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes pulse-bg {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes progress-slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+.animate-pulse-bg {
+  animation: pulse-bg 1.5s ease-in-out infinite;
+}
+
+.skeleton-line {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-container-high) 25%,
+    var(--color-surface-container) 50%,
+    var(--color-surface-container-high) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Scrollbar — technical look
+   ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-container-low);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Dot-grid background for schematic feel
+   ───────────────────────────────────────────────────────────── */
+.dot-grid-bg {
+  background-image: radial-gradient(
+    var(--color-primary) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  opacity: 0.05;
+  pointer-events: none;
+}
