@@ -44,6 +44,15 @@
       "options": {
         "targetName": "lint"
       }
+    },
+    {
+      "plugin": "@nx/angular/plugin",
+      "options": {
+        "serveTargetName": "serve",
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "e2eTargetName": "e2e"
+      }
     }
   ],
   "generators": {
