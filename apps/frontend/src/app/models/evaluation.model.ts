@@ -15,9 +15,11 @@ export interface TrailNode {
   label: string;
   type: 'root' | 'reformulation' | 'candidate' | 'final';
   level: number;
-  position: { left: string; top: string };
+  position: { x: number; y: number };
   isCriticalPath: boolean;
   skeleton?: boolean;
+  method?: string;
+  provenance?: string;
 }
 
 export interface TrailEdge {
