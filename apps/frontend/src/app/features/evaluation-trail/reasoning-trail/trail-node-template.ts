@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, computed, output } from '@angular/core';
 import { type NgDiagramNodeTemplate, type Node } from 'ng-diagram';
 
 interface TrailNodeData {
@@ -20,6 +20,8 @@ interface TrailNodeData {
       [class.candidate]="data().nodeType === 'candidate'"
       [class.final]="data().nodeType === 'final'"
       [class.critical]="data().isCriticalPath"
+      [class.trail-selected]="node().id === selectedId()"
+      (click)="onNodeClick()"
     >
       <span class="node-label text-label-caps">{{ data().label }}</span>
       @if (data().skeleton) {
@@ -91,6 +93,12 @@ interface TrailNodeData {
 })
 export class TrailNodeTemplateComponent implements NgDiagramNodeTemplate {
   readonly node = input.required<Node>();
+  readonly selectedId = input<string | null>(null);
+  readonly nodeSelected = output<string>();
 
   readonly data = computed(() => this.node().data as unknown as TrailNodeData);
+
+  onNodeClick(): void {
+    this.nodeSelected.emit(this.node().id);
+  }
 }

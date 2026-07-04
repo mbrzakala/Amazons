@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, computed, output } from '@angular/core';
 import { EvaluationRow } from '../../../models/evaluation.model';
 
 @Component({
@@ -20,7 +20,11 @@ import { EvaluationRow } from '../../../models/evaluation.model';
         </thead>
         <tbody>
           @for (row of rows(); track row.id) {
-            <tr [class.recommended]="isRecommended(row)">
+            <tr
+              [class.recommended]="isRecommended(row)"
+              [class.trail-selected]="row.id === selectedId()"
+              (click)="onRowClick(row.id)"
+            >
               <td class="title-cell">
                 @if (isRecommended(row)) {
                   <span class="material-symbols-outlined star" aria-hidden="true">stars</span>
@@ -135,10 +139,16 @@ import { EvaluationRow } from '../../../models/evaluation.model';
 export class EvaluationTableComponent {
   readonly rows = input.required<EvaluationRow[]>();
   readonly recommendedSolutionId = input<string | null>(null);
+  readonly selectedId = input<string | null>(null);
+  readonly rowSelected = output<string>();
 
   readonly hasRecommended = computed(() => this.recommendedSolutionId() !== null);
 
   isRecommended(row: EvaluationRow): boolean {
     return row.id === this.recommendedSolutionId();
+  }
+
+  onRowClick(id: string): void {
+    this.rowSelected.emit(id);
   }
 }

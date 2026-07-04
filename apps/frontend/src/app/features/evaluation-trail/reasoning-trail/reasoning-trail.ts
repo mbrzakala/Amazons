@@ -6,6 +6,7 @@ import {
   OnInit,
   signal,
   computed,
+  output,
 } from '@angular/core';
 import {
   NgDiagramComponent,
@@ -46,6 +47,7 @@ import { TrailNodeTemplateComponent } from './trail-node-template';
           [model]="model()"
           [nodeTemplateMap]="nodeTemplateMap"
           [config]="config"
+          (nodeSelected)="onNodeSelected($event)"
         />
       </div>
 
@@ -132,10 +134,20 @@ export class ReasoningTrailComponent implements OnInit {
 
   readonly nodes = input.required<TrailNode[]>();
   readonly edges = input.required<TrailEdge[]>();
+  readonly selectedId = input<string | null>(null);
+  readonly nodeSelected = output<string>();
 
   readonly nodeTemplateMap = new NgDiagramNodeTemplateMap([
     ['trailNode', TrailNodeTemplateComponent],
   ]);
+
+  readonly templateInputs = computed(() => ({
+    selectedId: this.selectedId(),
+  }));
+
+  onNodeSelected(id: string): void {
+    this.nodeSelected.emit(id);
+  }
 
   readonly config = {
     edgeRouting: {
@@ -152,7 +164,7 @@ export class ReasoningTrailComponent implements OnInit {
   ngOnInit(): void {
     const ngNodes = this.nodes().map((n) => ({
       id: n.id,
-      position: this.toXY(n.position.left, n.position.top),
+      position: { x: n.position.x, y: n.position.y },
       type: 'trailNode',
       autoSize: false,
       size: this.getNodeSize(n.type),
@@ -175,29 +187,12 @@ export class ReasoningTrailComponent implements OnInit {
       data: {},
     }));
 
-    this.model.set(initializeModel({ nodes: ngNodes, edges: ngEdges }));
+    this.model.set(initializeModel({ nodes: [], edges: [] }));
 
     if (this.modelService) {
       this.modelService.updateNodes(ngNodes);
       this.modelService.updateEdges(ngEdges);
     }
-  }
-
-  private toXY(left: string, top: string): { x: number; y: number } {
-    let x = 400;
-    if (left.includes('calc')) {
-      const match = left.match(/calc\((\d+)%\s*([+-])\s*(\d+)px\)/);
-      if (match) {
-        const op = match[2];
-        const offset = parseInt(match[3], 10);
-        x = op === '-' ? 400 - offset : 400 + offset;
-      }
-    } else if (left.includes('%')) {
-      const pct = parseInt(left, 10);
-      x = (pct / 100) * 800;
-    }
-    const y = parseInt(top, 10) || 0;
-    return { x, y };
   }
 
   private getNodeSize(type: TrailNode['type']): { width: number; height: number } {

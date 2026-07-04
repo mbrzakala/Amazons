@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, OnInit, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { EvaluationTableComponent } from './evaluation-table/evaluation-table';
 import { ReasoningTrailComponent } from './reasoning-trail/reasoning-trail';
+import { NodeDetailPanelComponent } from './node-detail-panel.component';
 import { ButtonComponent } from '../../shared/ui/button.component';
 import { RdCardComponent } from '../../shared/ui/rd-card.component';
 import { SolveSessionService } from '../../core/solve-session.service';
@@ -10,7 +11,7 @@ import { downloadJson } from '../../core/download.util';
 @Component({
   selector: 'app-evaluation-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [EvaluationTableComponent, ReasoningTrailComponent, ButtonComponent, RdCardComponent],
+  imports: [EvaluationTableComponent, ReasoningTrailComponent, NodeDetailPanelComponent, ButtonComponent, RdCardComponent],
   template: `
     <div class="page">
       <div class="content-wrapper">
@@ -43,6 +44,8 @@ import { downloadJson } from '../../core/download.util';
           <app-evaluation-table
             [rows]="session.evaluation()"
             [recommendedSolutionId]="session.recommendedRowId()"
+            [selectedId]="selectedId()"
+            (rowSelected)="selectedId.set($event)"
           />
         </app-rd-card>
 
@@ -58,9 +61,14 @@ import { downloadJson } from '../../core/download.util';
             <app-reasoning-trail
               [nodes]="session.trailNodes()"
               [edges]="session.trailEdges()"
+              [selectedId]="selectedId()"
+              (nodeSelected)="selectedId.set($event)"
             />
           </app-rd-card>
         </div>
+
+        <!-- Section 3: Node Detail Panel -->
+        <app-node-detail-panel [node]="selectedNode()" />
 
         <!-- Bottom Actions -->
         <div class="bottom-actions">
@@ -153,6 +161,13 @@ export class EvaluationPage implements OnInit {
 
   readonly reportDownloaded = signal(false);
   readonly fullTrailView = signal(false);
+  readonly selectedId = signal<string | null>(null);
+
+  readonly selectedNode = computed(() => {
+    const id = this.selectedId();
+    if (!id) return null;
+    return this.session.trailNodes().find((node) => node.id === id) ?? null;
+  });
 
   ngOnInit(): void {
     this.session.loadEvaluationData();
@@ -167,8 +182,10 @@ export class EvaluationPage implements OnInit {
       secondMethodSolutions: this.session.secondMethodSolutions(),
       evaluation: this.session.evaluation(),
       recommendation: this.session.recommendation(),
-      trailNodes: this.session.trailNodes(),
-      trailEdges: this.session.trailEdges(),
+      trail: {
+        nodes: this.session.trailNodes(),
+        edges: this.session.trailEdges(),
+      },
     };
     downloadJson('evaluation-report.json', report);
     this.reportDownloaded.set(true);
@@ -183,7 +200,9 @@ export class EvaluationPage implements OnInit {
   }
 
   onInitiateValidation(): void {
-    this.session.reset();
-    this.router.navigate(['/']);
+    if (confirm('This will clear the current problem, candidates, and evaluation. Continue?')) {
+      this.session.reset();
+      this.router.navigate(['/']);
+    }
   }
 }
