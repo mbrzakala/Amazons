@@ -27,3 +27,4 @@ proposes, it never decides this (see [[START]] → Rules for AI).
 Next: [[3-problem-statement]].
 
 ## Result
+Researcher has 

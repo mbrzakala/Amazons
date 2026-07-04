@@ -1,0 +1,219 @@
+{
+  "main": {
+    "id": "2b9c020eebf65968",
+    "type": "split",
+    "children": [
+      {
+        "id": "de379d0c95775c5b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "475ee9a6788f6ed0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2-persona"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "2631f9584d8474de",
+    "type": "split",
+    "children": [
+      {
+        "id": "e7d08b48e470a1b0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0b4f4117d5fc807c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Przeglądarka plików"
+            }
+          },
+          {
+            "id": "6b91f24874f6a974",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Wyszukiwarka"
+            }
+          },
+          {
+            "id": "5c09737a70046a56",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Ulubione"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "2c091fb4181970a4",
+    "type": "split",
+    "children": [
+      {
+        "id": "51d370486762e13f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ef7883c3379f38fb",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Linki zwrotne do 2-persona"
+            }
+          },
+          {
+            "id": "1396eba50d4586bf",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Łącza wychodzące od 2-persona"
+            }
+          },
+          {
+            "id": "b8cf635b7341d9c0",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tagi"
+            }
+          },
+          {
+            "id": "b2dfd793d9510d8c",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Wszystkie atrybuty"
+            }
+          },
+          {
+            "id": "94bdf39973344084",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Hackathon Wiki/stages/1-discovery/steps/2-persona.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Konspekt 2-persona"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Otwórz okno szybkiego wyboru": false,
+      "graph:Otwórz podgląd grafu": false,
+      "canvas:Stwórz nową tablicę": false,
+      "daily-notes:Otwórz dzisiejszy dziennik": false,
+      "templates:Wstaw szablon": false,
+      "command-palette:Otwórz listę poleceń": false,
+      "bases:Stwórz nową bazę danych": false
+    }
+  },
+  "active": "475ee9a6788f6ed0",
+  "lastOpenFiles": [
+    "Hackathon Wiki/stages/1-discovery/steps/1-idea.md",
+    "doc/devin-chunks/00-INDEX.md.tmp.28888.f5c8bd58841c",
+    "doc/devin-chunks/18-ship-checklist-verification.md",
+    "doc/devin-chunks/17-screen-c-evaluation-wiring.md",
+    "doc/devin-chunks/16-ng-diagram-reasoning-trail.md",
+    "doc/devin-chunks/15-evaluation-table.md",
+    "doc/devin-chunks/14-screen-b-pipeline-wiring.md",
+    "doc/devin-chunks/14-screen-b-pipeline-wiring.md.tmp.28888.c3074d94987c",
+    "doc/devin-chunks/13-solution-card-and-stack.md",
+    "doc/devin-chunks/12-reformulation-cards.md",
+    "doc/devin-chunks/12-reformulation-cards.md.tmp.28888.dfd5183bc098",
+    "doc/devin-chunks/11-config-and-fake-data-layer.md",
+    "doc/devin-chunks/10-screen-a-problem-input.md",
+    "doc/devin-chunks/09-session-service-and-routing.md",
+    "doc/devin-chunks/08-shell-nav-components.md",
+    "doc/devin-chunks/08-shell-nav-components.md.tmp.28888.e545c145a045",
+    "doc/devin-chunks/07-button-component.md",
+    "doc/devin-chunks/06-form-field-atoms.md",
+    "doc/devin-chunks/05-icon-button-and-status-chip.md",
+    "doc/devin-chunks/05-icon-button-and-status-chip.md.tmp.28888.f9c82f42f9ab",
+    "doc/devin-chunks/04-card-anatomy-and-component.md",
+    "doc/devin-chunks/03-ng-diagram-setup.md",
+    "doc/devin-chunks/02-fonts-and-typography.md",
+    "doc/devin-chunks/01-design-tokens-and-contrast.md",
+    "doc/devin-chunks/00-INDEX.md",
+    "doc/devin-chunks",
+    "doc/01-discovery-user-story-map.md",
+    "doc/01-discovery-questions.md",
+    "apps/frontend/design-system/verification-report.md",
+    "apps/frontend/design-system/nx-boundaries-conditional.md"
+  ]
+}
