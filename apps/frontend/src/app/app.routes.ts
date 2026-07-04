@@ -23,7 +23,7 @@ export const appRoutes: Route[] = [
       {
         path: 'evaluation',
         loadComponent: () =>
-          import('./features/evaluation/evaluation-page').then(
+          import('./features/evaluation-trail/evaluation-page').then(
             (m) => m.EvaluationPage,
           ),
       },
