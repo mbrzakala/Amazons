@@ -4,19 +4,6 @@ export interface ProblemInput {
   physicalLimit: string;
 }
 
-export interface Contradiction {
-  improvingParameter: string;
-  worseningParameter: string;
-  statement: string;
-}
-
-export interface Reformulation {
-  methodId: string;
-  methodName: string;
-  contradiction: Contradiction;
-  hatsAnalysis?: HatAnalysis[];
-}
-
 export interface HatAnalysis {
   hatName: string;
   color: string;
