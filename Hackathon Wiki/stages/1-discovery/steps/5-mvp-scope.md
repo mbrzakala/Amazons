@@ -28,3 +28,36 @@ judgment.
 Next: [[6-kanban]].
 
 ## Result
+
+Scope decision (per team): ship **Release 1 only** from the user story map — Release
+2/3 items (interactive editors, `pytriz` MCP integration, MCDA) are cut for the
+hackathon, not just deferred within this step.
+
+**Process map (step 4) labeling — all 7 steps are MVP; none are cut**, since each is
+either required by the contest task itself or needed to present the full reasoning
+trail:
+
+| # | Step 4 event | Label | Why |
+|---|---|---|---|
+| 1 | Inventive problem submitted | **MVP** | Entry point — nothing to demo without it. |
+| 2 | Problem reformulated as technical contradiction | **MVP** | Contest requires the contradiction to be an explicit, inspectable step. |
+| 3 | TRIZ-based candidate solutions generated | **MVP** | Contest requires TRIZ as one of the two methods, ≥3 candidates. |
+| 4 | Second-method (LLM brainstorming) candidates generated | **MVP** | Contest requires a second method, ≥3 candidates. |
+| 5 | All candidates evaluated (single LLM judge score, 1–5, + justification) | **MVP** | Contest requires evaluation against the original problem. |
+| 6 | Best candidate solution selected | **MVP** | Contest requires a final choice. |
+| 7 | Recommended solution + reasoning trail delivered | **MVP** | Contest requires the full trail (problem → contradiction → candidates → evaluation → choice) to be presented. |
+
+**Later (explicitly out of scope for the hackathon MVP)** — from the user story map's
+Release 2/3 columns, kept here only for traceability of the Release-1-only decision:
+- Predefined SDG problem picker / external report ingestion (Release 2/3, task
+  "Wprowadzenie opisu wyzwania").
+- Editable contradiction form / interactive contradiction diagram (Release 2/3).
+- Interactive TRIZ matrix preview UI / `pytriz` MCP integration (Release 2/3).
+- Structured 5 Whys tree UI, multiple alternative-method choice (Release 2/3).
+- Manual score-correction form, criteria weighting, full MCDA panel (Release 2/3).
+- Side-by-side alternative-path comparison / variant diagramming (Release 3).
+- Dedicated inspectable sub-pages per step, PDF report export, shareable links, Miro/
+  Google Sheets export (Release 2/3).
+
+This is the smallest set that still lets the core value — "problem in, evaluated
+AI-reasoned solution out, with a visible trail" — be demonstrated end-to-end.

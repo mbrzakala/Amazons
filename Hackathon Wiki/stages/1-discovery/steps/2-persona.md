@@ -27,4 +27,7 @@ proposes, it never decides this (see [[START]] → Rules for AI).
 Next: [[3-problem-statement]].
 
 ## Result
-Researcher from R & D department is aware of the opportunity to combine TRIZZ and AI to facilitate research. They have no tool to use AI in order to harness that opportunity. If they could have a tool where they could input their problem, and get professional, AI-powered solution space feedback information, it'd greatly facilitate their research.   
+- **Name:** David Holz
+- **Role/context:** Senior Systems & Solution Architect at a global humanitarian R&D lab. He architects macro-level, decentralized infrastructure for crisis zones (e.g. off-grid desalination) and must vet technical proposals before risking organizational budget on them.
+- **Goal:** Get rigorous, evidence-backed solution recommendations for hard inventive/engineering problems fast, so he can evaluate and greenlight field-ready proposals with confidence.
+- **Pain point:** Running a TRIZ contradiction analysis and a second ideation method by hand, then evaluating and justifying a choice among the candidates, is slow and requires expertise he has to apply manually every time — this is exactly the gap the task-1 idea targets (see [[../../../PRODUCT|PRODUCT]] and the Problem Statement Canvas in `doc/01-discovery-problem-statement-canvas.md`).

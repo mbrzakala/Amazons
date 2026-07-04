@@ -30,3 +30,22 @@ markdown files.
 Last task — once it passes, the stage is done.
 
 ## Result
+
+One ticket created per MVP-labeled step from [[5-mvp-scope]], via `npx kanban-lite`
+(cards are git-committed `.md` files under `.kanban/boards/default/todo/`). All start
+in **To Do**:
+
+| Ticket | Title | Maps to MVP step |
+|---|---|---|
+| #7 | Problem input endpoint | 1. Inventive problem submitted |
+| #8 | Contradiction reformulation step | 2. Problem reformulated as technical contradiction |
+| #9 | TRIZ candidate generation | 3. TRIZ-based candidate solutions generated |
+| #10 | Brainstorming candidate generation | 4. Second-method (LLM brainstorming) candidates generated |
+| #11 | Candidate evaluation (LLM judge) | 5. All candidates evaluated |
+| #12 | Best candidate selection | 6. Best candidate solution selected |
+| #13 | Reasoning trail delivery | 7. Recommended solution + reasoning trail delivered |
+
+These are separate from the pre-existing `#1 "Stage 1: Discovery"` card, which tracks
+the meta-progress of this discovery stage itself, not the product's feature backlog.
+
+Stage 1 is complete.

@@ -21,4 +21,4 @@ ChatGPT for 2–3 directions inside the hackathon's theme; team picks or adapts 
 Next: [[2-persona]].
 
 ## Result
-Researcher from R & D department inputs a problem. Gets 6+ candidate solutions from 2 problem solving paradigms, recommended actual solution, reasoning chain of evidence for the actual solution. 
+A system that takes an R&D researcher's inventive problem and returns AI-evaluated candidate solutions (TRIZ + brainstorming) with a full reasoning trail, in minutes instead of hours.

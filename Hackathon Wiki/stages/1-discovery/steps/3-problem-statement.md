@@ -32,20 +32,22 @@ draft sentence smuggles in a solution, and suggest a reworded, solution-free ver
 Next: [[4-process-map]].
 
 ## Result
-*(AI draft — pending team confirmation before stage lock)*
+*(Team-confirmed)*
 
-- **Who:** R&D department researcher.
-- **What they need:** a way to turn an inventive/technical problem into an evaluated,
-  evidence-backed solution recommendation, generated using TRIZ plus a second ideation
-  method.
+- **Who:** David Holz, Senior Systems & Solution Architect at a global humanitarian R&D
+  lab (see [[2-persona]]).
+- **What they need:** a way to turn an inventive/technical problem (e.g. improving
+  desalination efficiency) into an evaluated, evidence-backed solution recommendation,
+  generated using TRIZ plus a second ideation method.
 - **Why (root cause/pain):** running a TRIZ contradiction analysis and a second ideation
   method by hand, then evaluating and justifying a choice among the candidates, is slow
-  and requires expertise the researcher has to apply manually every time.
+  and requires expertise he has to apply manually every time, delaying decisions on
+  field-ready proposals.
 - **What exists today and why it falls short:** TRIZ contradiction matrices and other
   ideation techniques exist as manual references/textbooks; no tool combines them with
   AI to generate, evaluate, and explain candidate solutions end-to-end.
 
-**Problem statement:** The R&D researcher needs a way to turn an inventive problem into
-an evaluated, evidence-backed solution recommendation using TRIZ and a second ideation
+**Problem statement:** David Holz needs a way to turn an inventive problem into an
+evaluated, evidence-backed solution recommendation using TRIZ and a second ideation
 method, because doing this by hand is slow and expertise-heavy, and no existing tool
 combines AI with TRIZ to generate and justify candidates end-to-end.

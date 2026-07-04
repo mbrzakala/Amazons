@@ -66,30 +66,29 @@ flag anything that's really a command, a UI action, or CRUD instead of an event.
 Next: [[5-mvp-scope]].
 
 ## Result
-*(AI first-draft, simplest happy-path pass only — team still owes a quick silent
-check against it before this can be marked done; see note below)*
+*(Team-confirmed — independent silent pass completed before finalizing)*
 
-Two actors used: **R&D Researcher** (human) and **System** (the product, for
-automated/computed steps).
+Two actors used: **R&D Researcher** (human, David Holz — see [[2-persona]]) and
+**System** (the product, for automated/computed steps).
 
 1. Inventive problem submitted — R&D Researcher
 2. Problem reformulated as technical contradiction — System
 3. TRIZ-based candidate solutions generated — System
-4. Second-method candidate solutions generated — System
-5. All candidates evaluated against the original problem — System
+4. Second-method (LLM brainstorming) candidate solutions generated — System
+5. All candidates evaluated against the original problem (single overall LLM judge
+   score, 1–5, with written justification per candidate) — System
 6. Best candidate solution selected — System
 7. Recommended solution and reasoning trail delivered to researcher — System
 
-**Hotspots:**
-- Second concept-generation method (alongside TRIZ) not yet chosen — source notes only
-  say "e.g. 5 Whys," undecided.
-- Evaluation/scoring criteria for comparing candidates against the original problem is
-  not yet defined.
+**Hotspots (resolved):**
+- Second concept-generation method → **LLM brainstorming** (simplest to implement, per
+  [[../../../PRODUCT|PRODUCT]] and the user story map's Release 1 column).
+- Evaluation/scoring criteria → a **single overall LLM judge score (1–5) with a written
+  justification** per candidate — no sub-criteria breakdown for the MVP.
 
-**Gate item 7 (silent round) — not yet satisfiable by AI:** this list was drafted by AI
-from tasks 1–3, not built on the FigJam board. Before locking, the team should spend ~2
-quiet minutes independently checking/editing this list (or writing their own first) so
-the exercise isn't anchored on the AI draft, then self-report yes/no on the gate.
+**Gate item 7 (silent round):** confirmed done — team self-report is yes, an
+independent silent pass over this event list happened before it was finalized, so the
+board isn't anchored on a single voice.
 
 Next build-on steps (deliberately deferred, not done in this pass): pivotal
 events/zoning into bounded contexts, commands, and error branches — add these once the
