@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY_NAME}/amazons-mcp-server:latest',
+      'apps/backend/mcp-server'
+    ]
+    env: ['DOCKER_BUILDKIT=1']
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY_NAME}/amazons-mcp-server:latest'
+
+substitutions:
+  _REGION: europe-west1
+  _REGISTRY_NAME: amazons-repo
+

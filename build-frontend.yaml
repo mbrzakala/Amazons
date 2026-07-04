@@ -1,0 +1,16 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-f', 'apps/frontend/Dockerfile',
+      '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY_NAME}/amazons-frontend:latest',
+      '.'
+    ]
+    env: ['DOCKER_BUILDKIT=1']
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY_NAME}/amazons-frontend:latest'
+
+substitutions:
+  _REGION: europe-west1
+  _REGISTRY_NAME: amazons-repo
+

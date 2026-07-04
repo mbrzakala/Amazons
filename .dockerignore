@@ -4,3 +4,4 @@ dist
 .nx
 .vscode
 .angular
+**/.venv

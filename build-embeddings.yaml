@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-f', 'apps/backend/embeddings/Dockerfile',
+      '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY_NAME}/amazons-embeddings:latest',
+      'apps/backend/embeddings'
+    ]
+    env: ['DOCKER_BUILDKIT=1']
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY_NAME}/amazons-embeddings:latest'
+
+substitutions:
+  _REGION: europe-west1
+  _REGISTRY_NAME: amazons-repo
