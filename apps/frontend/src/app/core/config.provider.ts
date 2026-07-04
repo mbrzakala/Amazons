@@ -1,7 +1,7 @@
 import { Injectable, InjectionToken, inject } from '@angular/core';
 
-const FAKE_API_URL = 'http://localhost:3000/fake-api';
-const REAL_API_URL = 'http://localhost:3000/api';
+const FAKE_API_URL = '/fake-api';
+const REAL_API_URL = '/api';
 
 export type FeatureScope = 'default' | 'problem' | 'pipeline' | 'evaluation';
 
@@ -14,7 +14,7 @@ export interface ApiConfig {
 }
 
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  useFakeApi: true,
+  useFakeApi: false,
   realApiUrl: REAL_API_URL,
 };
 

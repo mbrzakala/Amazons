@@ -195,15 +195,20 @@ deploy-backend:
 		--set-env-vars=DATABASE_URL="postgresql://$(DB_USER):$(DB_PASSWORD)@localhost:5432/$(DB_NAME)?host=/cloudsql/$(GCP_PROJECT):$(REGION):$(DB_INSTANCE)",ADK_AGENT_URL=$(AGENT_URL)
 
 # Deploy Angular Frontend
-# NOTE: the Angular app has no backend integration wired up yet (no /api calls,
-# no nginx proxy) - this deploys a static shell, not a functional TRIZ UI.
+# NOTE: the Angular app has no backend integration wired up yet (no /api calls)
+# - this deploys a static shell, not a functional TRIZ UI. BACKEND_URL must be
+# set or nginx.conf's envsubst leaves a literal ${BACKEND_URL} in proxy_pass,
+# which fails nginx's config check and the container never starts.
 deploy-frontend:
+	@echo "Fetching private Backend URL..."
+	$(eval BACKEND_URL := $(shell gcloud run services describe amazons-backend --region=$(REGION) --format='value(status.url)'))
 	gcloud run deploy amazons-frontend \
 		--image=$(FRONTEND_IMAGE) \
 		--region=$(REGION) \
 		--platform=managed \
 		--allow-unauthenticated \
-		--min-instances=1
+		--min-instances=1 \
+		--set-env-vars=BACKEND_URL=$(BACKEND_URL)
 
 # Retrieve active endpoints of deployed Cloud Run services
 show-urls:
